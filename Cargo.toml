@@ -1,0 +1,10 @@
+[package]
+name = "script_rust"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "script_rust"
+path = "src/script-rust.rs"
+
+[dependencies]
