@@ -1,8 +1,8 @@
-struct Application {
+struct Demo {
     msg: String,
 }
 
-impl Application {
+impl Demo {
     fn new(msg: String) -> Self {
         Self { msg }
     }
@@ -12,9 +12,8 @@ impl Application {
     }
 }
 
-
 pub fn run() {
-    let msg = String::from("Hello world!");
-    let app = Application::new(msg);
-    app.test();
+    let msg = String::from("Demo test.");
+    let demo = Demo::new(msg);
+    demo.test();
 }
