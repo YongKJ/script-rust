@@ -1,14 +1,20 @@
-
 struct Application {
-
+    msg: String,
 }
 
 impl Application {
-    pub fn new() -> Self {
-        Self {}
+    fn new(msg: String) -> Self {
+        Self { msg }
+    }
+
+    fn test(&self) {
+        println!("msg: {}", self.msg)
     }
 }
 
-fn run() {
 
+pub fn run() {
+    let msg = String::from("Hello world!");
+    let app = Application::new(msg);
+    app.test()
 }

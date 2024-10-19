@@ -1,3 +1,8 @@
+mod application;
+
+use crate::application::{Application, ApplicationTest};
+
 fn main() {
-    println!("Hello, world!");
+    Application::run();
+    ApplicationTest::run();
 }
