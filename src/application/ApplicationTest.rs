@@ -1,20 +1,18 @@
-struct ApplicationTest {
-    msg: String,
-}
+use crate::application::applet::Demo::Demo;
+
+struct ApplicationTest {}
 
 impl ApplicationTest {
-    fn new(msg: String) -> Self {
-        Self { msg }
+    fn new() -> Self {
+        Self {}
     }
 
     fn test(&self) {
-        println!("msg: {}", self.msg)
+        Demo::run()
     }
 }
 
 
 pub fn run() {
-    let msg = String::from("Hello world!");
-    let app_test = ApplicationTest::new(msg);
-    app_test.test()
+    ApplicationTest::new().test();
 }

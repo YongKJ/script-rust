@@ -13,7 +13,5 @@ impl Demo {
 }
 
 pub fn run() {
-    let msg = String::from("Demo test.");
-    let demo = Demo::new(msg);
-    demo.test();
+    Demo::new(String::from("Demo test.")).test();
 }
