@@ -17,22 +17,22 @@ impl ScriptRust {
         Application::run();
     }
 
-    fn run_test(&self) {
+    fn runTest(&self) {
         ApplicationTest::run();
     }
 }
 
 fn main() {
-    let script_rust = ScriptRust::new();
+    let scriptRust = ScriptRust::new();
 
     let args: Vec<String> = env::args().collect();
     if args.len() == 1 {
-        script_rust.run();
+        scriptRust.run();
         return;
     }
 
     let flag = args.get(1);
     if *flag.expect("") == "test".to_string() {
-        script_rust.run_test();
+        scriptRust.runTest();
     }
 }
