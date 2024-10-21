@@ -1,4 +1,8 @@
-#![allow(non_snake_case)]
+#![allow(
+    dead_code,
+    unused_imports,
+    non_snake_case
+)]
 
 mod application;
 
