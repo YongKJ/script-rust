@@ -9,6 +9,11 @@ impl Demo {
         Self { msg }
     }
 
+    fn test2(&self) {
+        let fileName = "C:\\$WINRE_BACKUP_PARTITION.MARKER";
+        FileUtil::create(String::from(fileName));
+    }
+
     fn test1(&self) {
         let dir = FileUtil::workFolder();
         println!("msg: {}", dir)
@@ -22,6 +27,7 @@ impl Demo {
 pub fn run() {
     let demo = Demo::new(String::from("Demo test."));
 
-    demo.test1();
+    demo.test2();
+    // demo.test1();
     // demo.test();
 }
