@@ -21,7 +21,7 @@ impl Demo {
 
     fn test2(&self) {
         let fileName = "C:\\$WINRE_BACKUP_PARTITION.MARKER";
-        FileUtil::create(fileName);
+        FileUtil::create(String::from(fileName));
     }
 
     fn test3(&self) {
@@ -31,7 +31,8 @@ impl Demo {
     }
 
     fn test4(&self) {
-        let size = FileUtil::size("C:\\Users\\Admin\\Desktop\\顾客浏览路径聚合-1729481289990.xlsx");
+        let fileName = "C:\\Users\\Admin\\Desktop\\顾客浏览路径聚合-1729481289990.xlsx";
+        let size = FileUtil::size(String::from(fileName));
         LogUtil::loggerLine(Log::of("Demo", "test3", "msg", Box::new(size)));
     }
 }
