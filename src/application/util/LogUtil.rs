@@ -2,28 +2,31 @@ use crate::application::config::Global;
 use crate::application::pojo::dto::Log::Log;
 use std::any::Any;
 use std::fmt;
-use std::io;
 
-pub fn loggerLine(log: Log) {
-    logger(log);
+pub fn loggerLine<T: Any + fmt::Display>(log: Log) {
+    logger::<T>(log);
     println!();
 }
 
-pub fn logger(log: Log) {
+pub fn logger<T: Any + fmt::Display>(log: Log) {
     if !Global::LOG_ENABLE {
         return;
     }
 
     print!("[{}] {} -> {}: ", log.className(), log.methodName(), log.paramName());
-    loggerValue(log.value());
+    loggerValue::<T>(log.value());
 }
 
-fn loggerValue(value: &Box<dyn Any>) {
-    if let Some(ioErr) = (*value).downcast_ref::<io::Error>() {
-        print!("{}", ioErr);
-    } else if let Some(fmtErr) = (*value).downcast_ref::<fmt::Error>() {
-        print!("{}", fmtErr);
-    } else if let Some(string) = (*value).downcast_ref::<String>() {
-        print!("{}", string);
+fn loggerValue<T: Any + fmt::Display>(value: &Box<dyn Any>) {
+    if !isType::<T>(value) {
+        return;
     }
+
+    if let Some(msg) = (*value).downcast_ref::<T>() {
+        print!("{}", msg);
+    }
+}
+
+fn isType<T: Any>(value: &Box<dyn Any>) -> bool {
+    value.downcast_ref::<T>().is_some()
 }
