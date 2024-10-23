@@ -35,12 +35,21 @@ impl Demo {
         let size = FileUtil::size(String::from(fileName));
         LogUtil::loggerLine(Log::of("Demo", "test3", "msg", Box::new(size)));
     }
+
+    fn test5(&self) {
+        let fileName = "C:\\Users\\Admin\\Desktop\\顾客浏览路径聚合-1729481289990.xlsx";
+        let isFolder = FileUtil::isFolder(String::from(fileName));
+        let isFile = FileUtil::isFile(String::from(fileName));
+        LogUtil::loggerLine(Log::of("Demo", "test3", "isFolder", Box::new(isFolder)));
+        LogUtil::loggerLine(Log::of("Demo", "test3", "isFile", Box::new(isFile)));
+    }
 }
 
 pub fn run() {
     let demo = Demo::new(String::from("Demo test."));
 
-    demo.test4();
+    demo.test5();
+    // demo.test4();
     // demo.test3();
     // demo.test2();
     // demo.test1();
