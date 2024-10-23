@@ -21,7 +21,7 @@ impl Demo {
 
     fn test2(&self) {
         let fileName = "C:\\$WINRE_BACKUP_PARTITION.MARKER";
-        FileUtil::create(String::from(fileName));
+        FileUtil::create(&mut fileName.to_string());
     }
 
     fn test3(&self) {
@@ -32,23 +32,31 @@ impl Demo {
 
     fn test4(&self) {
         let fileName = "C:\\Users\\Admin\\Desktop\\顾客浏览路径聚合-1729481289990.xlsx";
-        let size = FileUtil::size(String::from(fileName));
+        let size = FileUtil::size(&mut fileName.to_string());
         LogUtil::loggerLine(Log::of("Demo", "test3", "msg", Box::new(size)));
     }
 
     fn test5(&self) {
         let fileName = "C:\\Users\\Admin\\Desktop\\顾客浏览路径聚合-1729481289990.xlsx";
-        let isFolder = FileUtil::isFolder(String::from(fileName));
-        let isFile = FileUtil::isFile(String::from(fileName));
+        let isFolder = FileUtil::isFolder(&mut fileName.to_string());
+        let isFile = FileUtil::isFile(&mut fileName.to_string());
         LogUtil::loggerLine(Log::of("Demo", "test3", "isFolder", Box::new(isFolder)));
         LogUtil::loggerLine(Log::of("Demo", "test3", "isFile", Box::new(isFile)));
+    }
+
+    fn test6(&self) {
+        // let fileName = "C:\\Users\\admin\\Desktop\\apk";
+        let fileName = "C:\\Users\\admin\\Desktop\\api-go";
+        let folderSize = FileUtil::sizeFolder(&mut fileName.to_string());
+        LogUtil::loggerLine(Log::of("Demo", "test6", "folderSize", Box::new(folderSize)));
     }
 }
 
 pub fn run() {
     let demo = Demo::new(String::from("Demo test."));
 
-    demo.test5();
+    demo.test6();
+    // demo.test5();
     // demo.test4();
     // demo.test3();
     // demo.test2();
