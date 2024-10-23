@@ -1,3 +1,5 @@
+use crate::application::pojo::dto::Log::Log;
+use crate::application::util::LogUtil;
 use std::env;
 use std::fs::File;
 
@@ -9,6 +11,6 @@ pub fn workFolder() -> String {
 pub fn create(fileName: String) {
     let result = File::create(fileName);
     if result.is_err() {
-        println!("{}", result.unwrap_err())
+        LogUtil::loggerLine(Log::of("FileUtil", "create", "File::create", Box::new(result.unwrap_err())));
     }
 }

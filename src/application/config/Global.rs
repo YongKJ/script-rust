@@ -1,0 +1,1 @@
+pub const LOG_ENABLE: bool = true;
