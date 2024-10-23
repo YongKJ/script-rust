@@ -1,18 +1,18 @@
-use std::any::Any;
+use std::fmt::Display;
 
 pub struct Log {
     className: String,
     methodName: String,
     paramName: String,
-    value: Box<dyn Any>,
+    value: Box<dyn Display>,
 }
 
 impl Log {
-    fn new(className: String, methodName: String, paramName: String, value: Box<dyn Any>) -> Self {
+    fn new(className: String, methodName: String, paramName: String, value: Box<dyn Display>) -> Self {
         Self { className, methodName, paramName, value }
     }
 
-    pub fn of(className: &str, methodName: &str, paramName: &str, value: Box<dyn Any>) -> Log {
+    pub fn of(className: &str, methodName: &str, paramName: &str, value: Box<dyn Display>) -> Log {
         Log::new(String::from(className), String::from(methodName), String::from(paramName), value)
     }
 }
@@ -30,7 +30,7 @@ impl Log {
         self.paramName = paramName;
     }
 
-    pub fn setValue(&mut self, value: Box<dyn Any>) {
+    pub fn setValue(&mut self, value: Box<dyn Display>) {
         self.value = value;
     }
 }
@@ -48,7 +48,7 @@ impl Log {
         &self.paramName
     }
 
-    pub fn value(&self) -> &Box<dyn Any> {
+    pub fn value(&self) -> &Box<dyn Display> {
         &self.value
     }
 }

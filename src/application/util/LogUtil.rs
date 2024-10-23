@@ -1,32 +1,19 @@
 use crate::application::config::Global;
 use crate::application::pojo::dto::Log::Log;
-use std::any::Any;
-use std::fmt;
+use std::fmt::Display;
 
-pub fn loggerLine<T: Any + fmt::Display>(log: Log) {
-    logger::<T>(log);
-    println!();
-}
-
-pub fn logger<T: Any + fmt::Display>(log: Log) {
+pub fn loggerLine(log: Log) {
     if !Global::LOG_ENABLE {
         return;
     }
 
-    print!("[{}] {} -> {}: ", log.className(), log.methodName(), log.paramName());
-    loggerValue::<T>(log.value());
+    println!("[{}] {} -> {}: {}", log.className(), log.methodName(), log.paramName(), log.value().as_ref());
 }
 
-fn loggerValue<T: Any + fmt::Display>(value: &Box<dyn Any>) {
-    if !isType::<T>(value) {
+pub fn logger(log: Log) {
+    if !Global::LOG_ENABLE {
         return;
     }
 
-    if let Some(msg) = (*value).downcast_ref::<T>() {
-        print!("{}", msg);
-    }
-}
-
-fn isType<T: Any>(value: &Box<dyn Any>) -> bool {
-    value.downcast_ref::<T>().is_some()
+    print!("[{}] {} -> {}: {}", log.className(), log.methodName(), log.paramName(), log.value().as_ref());
 }
