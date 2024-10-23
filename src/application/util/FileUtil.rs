@@ -5,8 +5,13 @@ use std::fs::File;
 use std::io::Error;
 
 pub fn workFolder() -> String {
-    env::current_dir().unwrap()
-        .to_str().expect("").to_string()
+    let curDir = env::current_dir();
+    if curDir.is_err() {
+        LogUtil::loggerLine::<Error>(Log::of("FileUtil", "workFolder", "env::current_dir", Box::new(curDir.unwrap_err())));
+        return "".to_string();
+    }
+
+    curDir.unwrap().to_str().expect("").to_string()
 }
 
 pub fn create(fileName: String) {

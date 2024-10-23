@@ -34,8 +34,8 @@ impl Demo {
 pub fn run() {
     let demo = Demo::new(String::from("Demo test."));
 
-    demo.test3();
+    // demo.test3();
     // demo.test2();
-    // demo.test1();
+    demo.test1();
     // demo.test();
 }
