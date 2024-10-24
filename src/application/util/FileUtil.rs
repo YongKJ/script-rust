@@ -34,7 +34,7 @@ pub fn sizeFolder(fileName: &mut String) -> u64 {
     let mut folderSize = 0;
     let files = list(fileName);
     for file in files.iter() {
-        let mut tempFileName = fileName.to_owned() + &*path::MAIN_SEPARATOR.to_string() + file;
+        let mut tempFileName = fileName.to_owned() + path::MAIN_SEPARATOR.to_string().as_str() + file;
         if isFolder(&mut tempFileName) {
             folderSize += sizeFolder(&mut tempFileName)
         } else {
