@@ -46,8 +46,9 @@ impl Demo {
 
     fn test6(&self) {
         // let fileName = "C:\\Users\\admin\\Desktop\\apk";
-        let fileName = "C:\\Users\\admin\\Desktop\\api-go";
-        let folderSize = FileUtil::sizeFolder(fileName.to_string());
+        // let fileName = "C:\\Users\\admin\\Desktop\\api-go";
+        let fileName = "C:\\Users\\Admin\\Desktop\\Database-Backup";
+        let folderSize = FileUtil::sizeFolder(&mut fileName.to_string());
         LogUtil::loggerLine(Log::of("Demo", "test6", "folderSize", Box::new(folderSize)));
     }
 }
