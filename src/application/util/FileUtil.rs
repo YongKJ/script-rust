@@ -13,14 +13,14 @@ pub fn workFolder() -> String {
     curDir.unwrap().to_str().expect("").to_string()
 }
 
-pub fn create(fileName: &mut String) {
+pub fn create(fileName: String) {
     let result = File::create(fileName);
     if result.is_err() {
         LogUtil::loggerLine(Log::of("FileUtil", "create", "File::create", Box::new(result.unwrap_err())));
     }
 }
 
-pub fn size(fileName: &mut String) -> u64 {
+pub fn size(fileName: String) -> u64 {
     let fileInfo = fs::metadata(fileName);
     if fileInfo.is_err() {
         LogUtil::loggerLine(Log::of("FileUtil", "size", "fs::metadata", Box::new(fileInfo.unwrap_err())));
@@ -30,26 +30,26 @@ pub fn size(fileName: &mut String) -> u64 {
     fileInfo.unwrap().len()
 }
 
-pub fn sizeFolder(fileName: &mut String) -> u64 {
+pub fn sizeFolder(fileName: String) -> u64 {
     let mut folderSize = 0;
-    let files = list(fileName);
+    let files = list(fileName.clone());
     for file in files.iter() {
-        let mut tempFileName = fileName.to_owned() + &*path::MAIN_SEPARATOR.to_string() + file;
-        if isFolder(&mut tempFileName) {
-            folderSize += sizeFolder(&mut tempFileName)
+        let tempFileName = fileName.clone() + path::MAIN_SEPARATOR.to_string().as_str() + file;
+        if isFolder(tempFileName.clone()) {
+            folderSize += sizeFolder(tempFileName)
         } else {
-            folderSize += size(&mut tempFileName)
+            folderSize += size(tempFileName)
         }
     }
 
     folderSize
 }
 
-pub fn exist(fileName: &mut String) -> bool {
+pub fn exist(fileName: String) -> bool {
     fs::metadata(fileName).is_ok()
 }
 
-pub fn isFolder(fileName: &mut String) -> bool {
+pub fn isFolder(fileName: String) -> bool {
     let fileInfo = fs::metadata(fileName);
     if fileInfo.is_err() {
         LogUtil::loggerLine(Log::of("FileUtil", "isFolder", "fs::metadata", Box::new(fileInfo.unwrap_err())));
@@ -59,7 +59,7 @@ pub fn isFolder(fileName: &mut String) -> bool {
     fileInfo.unwrap().is_dir()
 }
 
-pub fn isFile(fileName: &mut String) -> bool {
+pub fn isFile(fileName: String) -> bool {
     let fileInfo = fs::metadata(fileName);
     if fileInfo.is_err() {
         LogUtil::loggerLine(Log::of("FileUtil", "isFolder", "fs::metadata", Box::new(fileInfo.unwrap_err())));
@@ -69,7 +69,7 @@ pub fn isFile(fileName: &mut String) -> bool {
     fileInfo.unwrap().is_file()
 }
 
-pub fn list(fileName: &mut String) -> Vec<String> {
+pub fn list(fileName: String) -> Vec<String> {
     let files = fs::read_dir(fileName);
     if files.is_err() {
         LogUtil::loggerLine(Log::of("FileUtil", "list", "fs::read_dir", Box::new(files.unwrap_err())));
