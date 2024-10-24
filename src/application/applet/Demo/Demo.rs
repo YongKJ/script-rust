@@ -26,7 +26,7 @@ impl Demo {
 
     fn test3(&self) {
         LogUtil::loggerLine(Log::of("Demo", "test3", "msg", Box::new("Hello world!")));
-        LogUtil::loggerLine(Log::of("Demo", "test3", "msg", Box::new(String::from("世界，你好！"))));
+        LogUtil::loggerLine(Log::of("Demo", "test3", "msg", Box::new("世界，你好！".to_string())));
         LogUtil::loggerLine(Log::of("Demo", "test3", "msg", Box::new(12)));
     }
 
@@ -54,12 +54,12 @@ impl Demo {
 }
 
 pub fn run() {
-    let demo = Demo::new(String::from("Demo test."));
+    let demo = Demo::new("Demo test.".to_string());
 
-    demo.test6();
+    // demo.test6();
     // demo.test5();
     // demo.test4();
-    // demo.test3();
+    demo.test3();
     // demo.test2();
     // demo.test1();
     // demo.test();

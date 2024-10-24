@@ -13,7 +13,7 @@ impl Log {
     }
 
     pub fn of(className: &str, methodName: &str, paramName: &str, value: Box<dyn Display>) -> Log {
-        Log::new(String::from(className), String::from(methodName), String::from(paramName), value)
+        Log::new(className.to_string(), methodName.to_string(), paramName.to_string(), value)
     }
 }
 
