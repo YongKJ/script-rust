@@ -106,3 +106,42 @@ pub fn Move(srcFileName: String, desFileName: String) {
         LogUtil::loggerLine(Log::of("FileUtil", "Move", "fs::rename", Box::new(result.unwrap_err())));
     }
 }
+
+pub fn copy(srcFileName: String, desFileName: String) {
+    let result = fs::copy(srcFileName, desFileName);
+    if result.is_err() {
+        LogUtil::loggerLine(Log::of("FileUtil", "copy", "fs::copy", Box::new(result.unwrap_err())));
+    }
+}
+
+pub fn copyFolder(srcFolderName: String, desFolderName: String) {
+    let files = list(srcFolderName.clone());
+    for file in files.iter() {
+        let srcNewFileName = srcFolderName.clone() + path::MAIN_SEPARATOR.to_string().as_str() + file;
+        let desNewFileName = desFolderName.clone() + path::MAIN_SEPARATOR.to_string().as_str() + file;
+        if isFolder(srcNewFileName.clone()) {
+            mkdir(desNewFileName.clone());
+            copyFolder(srcNewFileName, desNewFileName);
+        } else {
+            copy(srcNewFileName, desNewFileName);
+        }
+    }
+}
+
+pub fn delete(fileName: String) {
+    if !exist(fileName.clone()) {
+        return;
+    }
+
+    if isFolder(fileName.clone()) {
+        let result = fs::remove_dir_all(fileName);
+        if result.is_err() {
+            LogUtil::loggerLine(Log::of("FileUtil", "delete", "fs::remove_dir_all", Box::new(result.unwrap_err())));
+        }
+    } else {
+        let result = fs::remove_file(fileName);
+        if result.is_err() {
+            LogUtil::loggerLine(Log::of("FileUtil", "delete", "fs::remove_file", Box::new(result.unwrap_err())));
+        }
+    }
+}
