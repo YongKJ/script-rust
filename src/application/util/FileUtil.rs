@@ -2,7 +2,7 @@ use crate::application::pojo::dto::Log::Log;
 use crate::application::util::LogUtil;
 use mime_guess::from_path;
 use std::fs::File;
-use std::io::{BufRead, BufReader};
+use std::io::{BufRead, BufReader, Write};
 use std::time::SystemTime;
 use std::{env, fs, path};
 
@@ -168,6 +168,19 @@ pub fn readByLine(fileName: String) -> Vec<String> {
     }
 
     lstLine
+}
+
+pub fn write(fileName: String, content: String) {
+    let file = File::create(fileName);
+    if file.is_err() {
+        LogUtil::loggerLine(Log::of("FileUtil", "write", "File::open", Box::new(file.unwrap_err())));
+        return;
+    }
+
+    let result = file.unwrap().write_all(content.as_bytes());
+    if result.is_err() {
+        LogUtil::loggerLine(Log::of("FileUtil", "write", "file.unwrap().write", Box::new(result.unwrap_err())));
+    }
 }
 
 pub fn Move(srcFileName: String, desFileName: String) {

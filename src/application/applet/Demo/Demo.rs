@@ -66,12 +66,18 @@ impl Demo {
         // LogUtil::loggerLine(Log::of("Demo", "test8", "content.len()", Box::new(content.len())));
     }
 
+    fn test9(&self) {
+        let fileName = "C:\\Users\\Admin\\Desktop\\test.code-workspace";
+        FileUtil::write(fileName.to_string(), "Hello world!".to_string());
+    }
+
 }
 
 pub fn run() {
     let demo = Demo::new("Demo test.".to_string());
 
-    demo.test8();
+    demo.test9();
+    // demo.test8();
     // demo.test7();
     // demo.test6();
     // demo.test5();
