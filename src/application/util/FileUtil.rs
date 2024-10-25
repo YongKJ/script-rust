@@ -69,6 +69,13 @@ pub fn isFile(fileName: String) -> bool {
     fileInfo.unwrap().is_file()
 }
 
+pub fn mkdir(fileName: String) {
+    let result = fs::create_dir_all(fileName);
+    if result.is_err() {
+        LogUtil::loggerLine(Log::of("FileUtil", "mkdir", "fs::create_dir_all", Box::new(result.unwrap_err())));
+    }
+}
+
 pub fn list(fileName: String) -> Vec<String> {
     let files = fs::read_dir(fileName);
     if files.is_err() {
@@ -91,4 +98,11 @@ pub fn list(fileName: String) -> Vec<String> {
     }
 
     lstFile
+}
+
+pub fn Move(srcFileName: String, desFileName: String) {
+    let result = fs::rename(srcFileName, desFileName);
+    if result.is_err() {
+        LogUtil::loggerLine(Log::of("FileUtil", "Move", "fs::rename", Box::new(result.unwrap_err())));
+    }
 }

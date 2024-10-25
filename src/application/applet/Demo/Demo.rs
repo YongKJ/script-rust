@@ -51,15 +51,21 @@ impl Demo {
         let folderSize = FileUtil::sizeFolder(fileName.to_string());
         LogUtil::loggerLine(Log::of("Demo", "test6", "folderSize", Box::new(folderSize)));
     }
+
+    fn test7(&self) {
+        let fileName = "C:\\Users\\Admin\\Desktop\\rust-test\\rust-demo";
+        FileUtil::mkdir(fileName.to_string());
+    }
 }
 
 pub fn run() {
     let demo = Demo::new("Demo test.".to_string());
 
+    demo.test7();
     // demo.test6();
     // demo.test5();
     // demo.test4();
-    demo.test3();
+    // demo.test3();
     // demo.test2();
     // demo.test1();
     // demo.test();
