@@ -1,6 +1,9 @@
 use crate::application::pojo::dto::Log::Log;
 use crate::application::util::LogUtil;
+use mime_guess::from_path;
 use std::fs::File;
+use std::io::{BufRead, BufReader};
+use std::time::SystemTime;
 use std::{env, fs, path};
 
 pub fn workFolder() -> String {
@@ -47,6 +50,42 @@ pub fn sizeFolder(fileName: String) -> u64 {
 
 pub fn exist(fileName: String) -> bool {
     fs::metadata(fileName).is_ok()
+}
+
+pub fn Type(fileName: String) -> String {
+    from_path(fileName).first_or_octet_stream().to_string()
+}
+
+pub fn date(fileName: String) -> SystemTime {
+    let fileInfo = fs::metadata(fileName);
+    if fileInfo.is_err() {
+        LogUtil::loggerLine(Log::of("FileUtil", "date", "fs::metadata", Box::new(fileInfo.unwrap_err())));
+        return SystemTime::now();
+    }
+
+    let createTime = fileInfo.unwrap().created();
+    if createTime.is_err() {
+        LogUtil::loggerLine(Log::of("FileUtil", "date", "createTime", Box::new(createTime.unwrap_err())));
+        return SystemTime::now();
+    }
+
+    createTime.unwrap()
+}
+
+pub fn modDate(fileName: String) -> SystemTime {
+    let fileInfo = fs::metadata(fileName);
+    if fileInfo.is_err() {
+        LogUtil::loggerLine(Log::of("FileUtil", "modDate", "fs::metadata", Box::new(fileInfo.unwrap_err())));
+        return SystemTime::now();
+    }
+
+    let modTime = fileInfo.unwrap().modified();
+    if modTime.is_err() {
+        LogUtil::loggerLine(Log::of("FileUtil", "modDate", "modTime", Box::new(modTime.unwrap_err())));
+        return SystemTime::now();
+    }
+
+    modTime.unwrap()
 }
 
 pub fn isFolder(fileName: String) -> bool {
@@ -98,6 +137,37 @@ pub fn list(fileName: String) -> Vec<String> {
     }
 
     lstFile
+}
+
+pub fn read(fileName: String) -> String {
+    let result = fs::read_to_string(fileName);
+    if result.is_err() {
+        LogUtil::loggerLine(Log::of("FileUtil", "read", "fs::read_to_string", Box::new(result.unwrap_err())));
+        return "".to_string();
+    }
+
+    result.unwrap()
+}
+
+pub fn readByLine(fileName: String) -> Vec<String> {
+    let file = File::open(fileName);
+    if file.is_err() {
+        LogUtil::loggerLine(Log::of("FileUtil", "readByLine", "File::open", Box::new(file.unwrap_err())));
+        return Vec::new();
+    }
+
+    let reader = BufReader::new(file.unwrap());
+    let mut lstLine = Vec::new();
+    for line in reader.lines() {
+        if line.is_err() {
+            LogUtil::loggerLine(Log::of("FileUtil", "readByLine", "line", Box::new(line.unwrap_err())));
+            continue;
+        }
+
+        lstLine.push(line.unwrap())
+    }
+
+    lstLine
 }
 
 pub fn Move(srcFileName: String, desFileName: String) {

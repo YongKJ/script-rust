@@ -56,12 +56,23 @@ impl Demo {
         let fileName = "C:\\Users\\Admin\\Desktop\\rust-test\\rust-demo";
         FileUtil::mkdir(fileName.to_string());
     }
+
+    fn test8(&self) {
+        // let fileName = "C:\\Users\\Admin\\Desktop\\busybox-df.json";
+        let fileName = "C:\\Users\\Admin\\Desktop\\api-ts.code-workspace";
+        let lines = FileUtil::readByLine(fileName.to_string());
+        LogUtil::loggerLine(Log::of("Demo", "test8", "lines.len()", Box::new(lines.len())));
+        // let content = FileUtil::read(fileName.to_string());
+        // LogUtil::loggerLine(Log::of("Demo", "test8", "content.len()", Box::new(content.len())));
+    }
+
 }
 
 pub fn run() {
     let demo = Demo::new("Demo test.".to_string());
 
-    demo.test7();
+    demo.test8();
+    // demo.test7();
     // demo.test6();
     // demo.test5();
     // demo.test4();
