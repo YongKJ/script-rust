@@ -1,6 +1,6 @@
-use regex::{Captures, Regex};
 use crate::application::pojo::dto::Log::Log;
-use crate::application::util::{FileUtil, LogUtil};
+use crate::application::util::{FileUtil, GenUtil, LogUtil};
+use regex::{Captures, Regex};
 
 struct Demo {
     msg: String,
@@ -128,12 +128,26 @@ impl Demo {
         LogUtil::loggerLine(Log::of("Demo", "test15", "replaceStr", Box::new(replaceStr)));
     }
 
+    fn test16(&self) {
+        let str = "hello-world";
+        let replaceStr = GenUtil::toHump(str.to_string());
+        LogUtil::loggerLine(Log::of("Demo", "test16", "replaceStr", Box::new(replaceStr)));
+    }
+
+    fn test17(&self) {
+        let str = "HelloWorld";
+        let replaceStr = GenUtil::toLine(str.to_string());
+        LogUtil::loggerLine(Log::of("Demo", "test17", "replaceStr", Box::new(replaceStr)));
+    }
+
 }
 
 pub fn run() {
     let demo = Demo::new("Demo test.".to_string());
 
-    demo.test15();
+    demo.test17();
+    // demo.test16();
+    // demo.test15();
     // demo.test14();
     // demo.test13();
     // demo.test12();
