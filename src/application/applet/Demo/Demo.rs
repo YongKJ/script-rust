@@ -1,3 +1,4 @@
+use regex::{Captures, Regex};
 use crate::application::pojo::dto::Log::Log;
 use crate::application::util::{FileUtil, LogUtil};
 
@@ -71,12 +72,74 @@ impl Demo {
         FileUtil::write(fileName.to_string(), "Hello world!".to_string());
     }
 
+    fn test10(&self) {
+        let regexStr = "\\sworld";
+        let regex = Regex::new(regexStr).unwrap();
+        let str = "Hello world!";
+        let flag = regex.is_match(str);
+        LogUtil::loggerLine(Log::of("Demo", "test10", "flag", Box::new(flag)));
+    }
+
+    fn test11(&self) {
+        let regexStr = "\\s(wor)ld";
+        let regex = Regex::new(regexStr).unwrap();
+        let str = "Hello world!";
+        let lstMatch = regex.captures(str).unwrap();
+        LogUtil::loggerLine(Log::of("Demo", "test11", "lstMatch.len()", Box::new(lstMatch.len())));
+        LogUtil::loggerLine(Log::of("Demo", "test11", "lstMatch.get(0)", Box::new(lstMatch.get(0).unwrap().as_str())));
+        LogUtil::loggerLine(Log::of("Demo", "test11", "lstMatch.get(1)", Box::new(lstMatch.get(1).unwrap().as_str())));
+    }
+
+    fn test12(&self) {
+        let regexStr = "\\s(wor)ld";
+        let regex = Regex::new(regexStr).unwrap();
+        let str = "Hello world!";
+        let replaceStr = regex.replace(str, "ggg");
+        LogUtil::loggerLine(Log::of("Demo", "test12", "replaceStr", Box::new(replaceStr)));
+    }
+
+    fn test13(&self) {
+        let regexStr = "\\s(wor)ld";
+        let regex = Regex::new(regexStr).unwrap();
+        let str = "Hello world!";
+        let lstMatch = regex.captures(str).unwrap();
+        let matchStr = lstMatch.get(1).unwrap().as_str();
+        let replaceStr = str.to_string().replace(matchStr, "ggg");
+        LogUtil::loggerLine(Log::of("Demo", "test13", "replaceStr", Box::new(replaceStr)));
+    }
+
+    fn test14(&self) {
+        let regexStr = "([A-Z])";
+        let regex = Regex::new(regexStr).unwrap();
+        let str = "HelloWorld";
+        let replaceStr = str[0..1].to_string().to_lowercase() + regex.replace_all(&str[1..str.len()], |lstMatch: &Captures| -> String {
+            return "-".to_string() + lstMatch.get(1).unwrap().as_str().to_lowercase().as_str()
+        }).to_string().as_str();
+        LogUtil::loggerLine(Log::of("Demo", "test14", "replaceStr", Box::new(replaceStr)));
+    }
+
+    fn test15(&self) {
+        let regexStr = "\\-(\\w)";
+        let regex = Regex::new(regexStr).unwrap();
+        let str = "hello-world";
+        let replaceStr = str[0..1].to_string().to_uppercase() + regex.replace_all(&str[1..str.len()], |lstMatch: &Captures| -> String {
+            return lstMatch.get(1).unwrap().as_str().replace("-", "").to_uppercase();
+        }).to_string().as_str();
+        LogUtil::loggerLine(Log::of("Demo", "test15", "replaceStr", Box::new(replaceStr)));
+    }
+
 }
 
 pub fn run() {
     let demo = Demo::new("Demo test.".to_string());
 
-    demo.test9();
+    demo.test15();
+    // demo.test14();
+    // demo.test13();
+    // demo.test12();
+    // demo.test11();
+    // demo.test10();
+    // demo.test9();
     // demo.test8();
     // demo.test7();
     // demo.test6();

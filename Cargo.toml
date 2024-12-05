@@ -9,3 +9,4 @@ path = "src/script-rust.rs"
 
 [dependencies]
 mime_guess = "2.0.5"
+regex = "1.11.1"
