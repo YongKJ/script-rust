@@ -1,11 +1,11 @@
-pub mod pojo;
+pub(crate) mod pojo;
 
-pub mod util;
+pub(crate) mod util;
 
-pub mod config;
+pub(crate) mod config;
 
-pub mod applet;
+pub(crate) mod applet;
 
-pub mod Application;
+pub(crate) mod Application;
 
-pub mod ApplicationTest;
+pub(crate) mod ApplicationTest;

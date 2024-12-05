@@ -1,1 +1,1 @@
-pub mod Log;
+pub(crate) mod Log;

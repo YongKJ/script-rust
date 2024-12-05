@@ -1,1 +1,1 @@
-pub mod Global;
+pub(crate) mod Global;
