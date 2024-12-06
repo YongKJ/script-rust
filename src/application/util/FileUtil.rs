@@ -231,30 +231,27 @@ pub fn delete(fileName: String) {
 }
 
 pub fn modContent(path: String, regStr: String, isAll: bool, value: String) {
-    modifyContent(path, regStr, isAll, &|_lstMatch: Captures| value.clone())
+    modifyContent(path, regStr, isAll, |_lstMatch: Captures| value.clone())
 }
 
-pub fn modifyContent(path: String, regStr: String, isAll: bool, valueFunc: &dyn Fn(Captures) -> String) {
+pub fn modifyContent(path: String, regStr: String, isAll: bool, valueFunc: impl Fn(Captures) -> String) {
     let content = read(path.clone());
     let mut contentBreak = "\n";
     if content.contains("\r\n") {
         contentBreak = "\r\n";
     }
-    let mut updateFlag = false;
     let mut lstLine: Vec<String> = Vec::new();
     let regex = Regex::new(regStr.as_str()).unwrap();
     let lines: Vec<&str> = content.split(contentBreak).collect();
-    for i in 0..lines.len() {
-        let line = lines.get(i).unwrap();
-        if (!isAll && updateFlag) || !regex.is_match(line) {
-            lstLine.push(lines.get(i).unwrap().to_string());
+    for line in lines {
+        if (!isAll && lstLine.len() > 1) || !regex.is_match(line) {
+            lstLine.push(line.to_string());
             continue;
         }
         let lstMatch = regex.captures(line).unwrap();
         if lstMatch.len() == 1 {
             continue;
         }
-        updateFlag = true;
         let matchStr = lstMatch.get(1).unwrap().as_str();
         lstLine.push(line.replace(matchStr, valueFunc(lstMatch).as_str()));
     }
