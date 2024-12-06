@@ -140,12 +140,28 @@ impl Demo {
         LogUtil::loggerLine(Log::of("Demo", "test17", "replaceStr", Box::new(replaceStr)));
     }
 
+    fn test18(&self) {
+        let regStr = "redirect:\\s\\{[\\s\\S]*?name:\\s\"(\\w+)\"[\\s\\S]*?\\}";
+        let path = "D:\\Document\\MyCodes\\Gitea\\api-web-vue3\\src\\router\\index.ts";
+        let value = "login";
+        FileUtil::modFile(path.to_string(), regStr.to_string(), false, value.to_string());
+    }
+
+    fn test19(&self) {
+        let regStr = "\\s+.+LOG_ENABLE = (\\S+);";
+        let path = "D:\\Document\\MyCodes\\Gitea\\api-web-vue3\\src\\common\\config\\Global.ts";
+        let value = "true";
+        FileUtil::modFile(path.to_string(), regStr.to_string(), false, value.to_string());
+    }
+
 }
 
 pub fn run() {
     let demo = Demo::new("Demo test.".to_string());
 
-    demo.test17();
+    demo.test19();
+    // demo.test18();
+    // demo.test17();
     // demo.test16();
     // demo.test15();
     // demo.test14();
