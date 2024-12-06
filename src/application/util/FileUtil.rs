@@ -1,6 +1,7 @@
 use crate::application::pojo::dto::Log::Log;
 use crate::application::util::LogUtil;
 use mime_guess::from_path;
+use regex::{Captures, Regex};
 use std::fs::File;
 use std::io::{BufRead, BufReader, Write};
 use std::time::SystemTime;
@@ -227,4 +228,35 @@ pub fn delete(fileName: String) {
             LogUtil::loggerLine(Log::of("FileUtil", "delete", "fs::remove_file", Box::new(result.unwrap_err())));
         }
     }
+}
+
+pub fn modContent(path: String, regStr: String, isAll: bool, value: String) {
+    modifyContent(path, regStr, isAll, &|_lstMatch: Captures| value.clone())
+}
+
+pub fn modifyContent(path: String, regStr: String, isAll: bool, valueFunc: &dyn Fn(Captures) -> String) {
+    let content = read(path.clone());
+    let mut contentBreak = "\n";
+    if content.contains("\r\n") {
+        contentBreak = "\r\n";
+    }
+    let mut updateFlag = false;
+    let mut lstLine: Vec<String> = Vec::new();
+    let regex = Regex::new(regStr.as_str()).unwrap();
+    let lines: Vec<&str> = content.split(contentBreak).collect();
+    for i in 0..lines.len() {
+        let line = lines.get(i).unwrap();
+        if (!isAll && updateFlag) || !regex.is_match(line) {
+            lstLine.push(lines.get(i).unwrap().to_string());
+            continue;
+        }
+        let lstMatch = regex.captures(line).unwrap();
+        if lstMatch.len() == 1 {
+            continue;
+        }
+        updateFlag = true;
+        let matchStr = lstMatch.get(1).unwrap().as_str();
+        lstLine.push(line.replace(matchStr, valueFunc(lstMatch).as_str()));
+    }
+    write(path, lstLine.join(contentBreak))
 }
