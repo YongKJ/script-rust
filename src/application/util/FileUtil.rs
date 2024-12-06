@@ -230,11 +230,30 @@ pub fn delete(fileName: String) {
     }
 }
 
-pub fn modContent(path: String, regStr: String, isAll: bool, value: String) {
-    modifyContent(path, regStr, isAll, |_lstMatch: Captures| value.clone())
+pub fn modFile(path: String, regStr: String, isAll: bool, value: String) {
+    modifyFile(path, regStr, isAll, |lstMatch: &Captures|
+        lstMatch.get(0).unwrap().as_str().replace(
+            lstMatch.get(1).unwrap().as_str(), value.as_str()))
 }
 
-pub fn modifyContent(path: String, regStr: String, isAll: bool, valueFunc: impl Fn(Captures) -> String) {
+pub fn modifyFile(path: String, regStr: String, isAll: bool, valueFunc: impl Fn(&Captures) -> String) {
+    let mut content = read(path.clone());
+    let regex = Regex::new(regStr.as_str()).unwrap();
+    if isAll {
+        content = regex.replace_all(content.as_str(), |lstMatch: &Captures| valueFunc(lstMatch)).to_string();
+    } else {
+        content = regex.replace(content.as_str(), |lstMatch: &Captures| valueFunc(lstMatch)).to_string();
+    }
+    write(path, content);
+}
+
+pub fn modContent(path: String, regStr: String, isAll: bool, value: String) {
+    modifyContent(path, regStr, isAll, |lstMatch: &Captures|
+        lstMatch.get(0).unwrap().as_str().replace(
+            lstMatch.get(1).unwrap().as_str(), value.as_str()))
+}
+
+pub fn modifyContent(path: String, regStr: String, isAll: bool, valueFunc: impl Fn(&Captures) -> String) {
     let content = read(path.clone());
     let mut contentBreak = "\n";
     if content.contains("\r\n") {
@@ -252,8 +271,7 @@ pub fn modifyContent(path: String, regStr: String, isAll: bool, valueFunc: impl 
         if lstMatch.len() == 1 {
             continue;
         }
-        let matchStr = lstMatch.get(1).unwrap().as_str();
-        lstLine.push(line.replace(matchStr, valueFunc(lstMatch).as_str()));
+        lstLine.push(regex.replace_all(line, valueFunc(&lstMatch)).to_string());
     }
     write(path, lstLine.join(contentBreak))
 }
