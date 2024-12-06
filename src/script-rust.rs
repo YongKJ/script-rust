@@ -39,7 +39,7 @@ fn main() {
     }
 
     let flag = args.get(1);
-    if *flag.expect("") == "test".to_string() {
+    if flag.expect("").as_str() == "test".to_string() {
         scriptRust.runTest();
     }
 }
