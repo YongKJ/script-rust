@@ -151,7 +151,7 @@ impl Demo {
         let regStr = "\\s+.+LOG_ENABLE = (\\S+);";
         let path = "D:\\Document\\MyCodes\\Gitea\\api-web-vue3\\src\\common\\config\\Global.ts";
         let value = "true";
-        FileUtil::modFile(path.to_string(), regStr.to_string(), false, value.to_string());
+        FileUtil::modContent(path.to_string(), regStr.to_string(), false, value.to_string());
     }
 
 }
