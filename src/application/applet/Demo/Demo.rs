@@ -26,23 +26,23 @@ impl Demo {
     }
 
     fn test3(&self) {
-        LogUtil::loggerLine(Log::of("Demo", "test3", "msg", Box::new("Hello world!")));
-        LogUtil::loggerLine(Log::of("Demo", "test3", "msg", Box::new("世界，你好！".to_string())));
-        LogUtil::loggerLine(Log::of("Demo", "test3", "msg", Box::new(12)));
+        LogUtil::loggerLine(Log::of("Demo", "test3", "msg", "Hello world!"));
+        LogUtil::loggerLine(Log::of("Demo", "test3", "msg", "世界，你好！".to_string()));
+        LogUtil::loggerLine(Log::of("Demo", "test3", "msg", 12));
     }
 
     fn test4(&self) {
         let fileName = "C:\\Users\\Admin\\Desktop\\顾客浏览路径聚合-1729481289990.xlsx";
         let size = FileUtil::size(fileName.to_string());
-        LogUtil::loggerLine(Log::of("Demo", "test3", "msg", Box::new(size)));
+        LogUtil::loggerLine(Log::of("Demo", "test3", "msg", size));
     }
 
     fn test5(&self) {
         let fileName = "C:\\Users\\Admin\\Desktop\\顾客浏览路径聚合-1729481289990.xlsx";
         let isFolder = FileUtil::isFolder(fileName.to_string());
         let isFile = FileUtil::isFile(fileName.to_string());
-        LogUtil::loggerLine(Log::of("Demo", "test3", "isFolder", Box::new(isFolder)));
-        LogUtil::loggerLine(Log::of("Demo", "test3", "isFile", Box::new(isFile)));
+        LogUtil::loggerLine(Log::of("Demo", "test3", "isFolder", isFolder));
+        LogUtil::loggerLine(Log::of("Demo", "test3", "isFile", isFile));
     }
 
     fn test6(&self) {
@@ -50,7 +50,7 @@ impl Demo {
         let fileName = "C:\\Users\\admin\\Desktop\\api-go";
         // let fileName = "C:\\Users\\Admin\\Desktop\\Database-Backup";
         let folderSize = FileUtil::sizeFolder(fileName.to_string());
-        LogUtil::loggerLine(Log::of("Demo", "test6", "folderSize", Box::new(folderSize)));
+        LogUtil::loggerLine(Log::of("Demo", "test6", "folderSize", folderSize));
     }
 
     fn test7(&self) {
@@ -62,9 +62,9 @@ impl Demo {
         // let fileName = "C:\\Users\\Admin\\Desktop\\busybox-df.json";
         let fileName = "C:\\Users\\Admin\\Desktop\\api-ts.code-workspace";
         let lines = FileUtil::readByLine(fileName.to_string());
-        LogUtil::loggerLine(Log::of("Demo", "test8", "lines.len()", Box::new(lines.len())));
+        LogUtil::loggerLine(Log::of("Demo", "test8", "lines.len()", lines.len()));
         // let content = FileUtil::read(fileName.to_string());
-        // LogUtil::loggerLine(Log::of("Demo", "test8", "content.len()", Box::new(content.len())));
+        // LogUtil::loggerLine(Log::of("Demo", "test8", "content.len()", content.len()));
     }
 
     fn test9(&self) {
@@ -77,7 +77,7 @@ impl Demo {
         let regex = Regex::new(regexStr).unwrap();
         let str = "Hello world!";
         let flag = regex.is_match(str);
-        LogUtil::loggerLine(Log::of("Demo", "test10", "flag", Box::new(flag)));
+        LogUtil::loggerLine(Log::of("Demo", "test10", "flag", flag));
     }
 
     fn test11(&self) {
@@ -85,9 +85,9 @@ impl Demo {
         let regex = Regex::new(regexStr).unwrap();
         let str = "Hello world!";
         let lstMatch = regex.captures(str).unwrap();
-        LogUtil::loggerLine(Log::of("Demo", "test11", "lstMatch.len()", Box::new(lstMatch.len())));
-        LogUtil::loggerLine(Log::of("Demo", "test11", "lstMatch.get(0)", Box::new(lstMatch.get(0).unwrap().as_str())));
-        LogUtil::loggerLine(Log::of("Demo", "test11", "lstMatch.get(1)", Box::new(lstMatch.get(1).unwrap().as_str())));
+        LogUtil::loggerLine(Log::of("Demo", "test11", "lstMatch.len()", lstMatch.len()));
+        LogUtil::loggerLine(Log::of("Demo", "test11", "lstMatch.get(0)", lstMatch.get(0).unwrap().as_str()));
+        LogUtil::loggerLine(Log::of("Demo", "test11", "lstMatch.get(1)", lstMatch.get(1).unwrap().as_str()));
     }
 
     fn test12(&self) {
@@ -95,7 +95,7 @@ impl Demo {
         let regex = Regex::new(regexStr).unwrap();
         let str = "Hello world!";
         let replaceStr = regex.replace(str, "ggg");
-        LogUtil::loggerLine(Log::of("Demo", "test12", "replaceStr", Box::new(replaceStr)));
+        LogUtil::loggerLine(Log::of("Demo", "test12", "replaceStr", replaceStr));
     }
 
     fn test13(&self) {
@@ -105,7 +105,7 @@ impl Demo {
         let lstMatch = regex.captures(str).unwrap();
         let matchStr = lstMatch.get(1).unwrap().as_str();
         let replaceStr = str.to_string().replace(matchStr, "ggg");
-        LogUtil::loggerLine(Log::of("Demo", "test13", "replaceStr", Box::new(replaceStr)));
+        LogUtil::loggerLine(Log::of("Demo", "test13", "replaceStr", replaceStr));
     }
 
     fn test14(&self) {
@@ -113,9 +113,9 @@ impl Demo {
         let regex = Regex::new(regexStr).unwrap();
         let str = "HelloWorld";
         let replaceStr = str[0..1].to_string().to_lowercase() + regex.replace_all(&str[1..str.len()], |lstMatch: &Captures| -> String {
-            return "-".to_string() + lstMatch.get(1).unwrap().as_str().to_lowercase().as_str()
+            return "-".to_string() + lstMatch.get(1).unwrap().as_str().to_lowercase().as_str();
         }).to_string().as_str();
-        LogUtil::loggerLine(Log::of("Demo", "test14", "replaceStr", Box::new(replaceStr)));
+        LogUtil::loggerLine(Log::of("Demo", "test14", "replaceStr", replaceStr));
     }
 
     fn test15(&self) {
@@ -125,19 +125,19 @@ impl Demo {
         let replaceStr = str[0..1].to_string().to_uppercase() + regex.replace_all(&str[1..str.len()], |lstMatch: &Captures| -> String {
             return lstMatch.get(1).unwrap().as_str().replace("-", "").to_uppercase();
         }).to_string().as_str();
-        LogUtil::loggerLine(Log::of("Demo", "test15", "replaceStr", Box::new(replaceStr)));
+        LogUtil::loggerLine(Log::of("Demo", "test15", "replaceStr", replaceStr));
     }
 
     fn test16(&self) {
         let str = "hello-world";
         let replaceStr = GenUtil::toHump(str.to_string());
-        LogUtil::loggerLine(Log::of("Demo", "test16", "replaceStr", Box::new(replaceStr)));
+        LogUtil::loggerLine(Log::of("Demo", "test16", "replaceStr", replaceStr));
     }
 
     fn test17(&self) {
         let str = "HelloWorld";
         let replaceStr = GenUtil::toLine(str.to_string());
-        LogUtil::loggerLine(Log::of("Demo", "test17", "replaceStr", Box::new(replaceStr)));
+        LogUtil::loggerLine(Log::of("Demo", "test17", "replaceStr", replaceStr));
     }
 
     fn test18(&self) {
@@ -153,7 +153,6 @@ impl Demo {
         let value = "true";
         FileUtil::modContent(path.to_string(), regStr.to_string(), false, value.to_string());
     }
-
 }
 
 pub fn run() {

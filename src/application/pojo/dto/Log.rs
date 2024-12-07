@@ -1,23 +1,23 @@
 use std::fmt::Display;
 
-pub struct Log {
+pub struct Log<T> {
     className: String,
     methodName: String,
     paramName: String,
-    value: Box<dyn Display>,
+    value: T,
 }
 
-impl Log {
-    fn new(className: String, methodName: String, paramName: String, value: Box<dyn Display>) -> Self {
+impl<T> Log<T> {
+    fn new(className: String, methodName: String, paramName: String, value: T) -> Self {
         Self { className, methodName, paramName, value }
     }
 
-    pub fn of(className: &str, methodName: &str, paramName: &str, value: Box<dyn Display>) -> Log {
+    pub fn of(className: &str, methodName: &str, paramName: &str, value: T) -> Log<T> {
         Log::new(className.to_string(), methodName.to_string(), paramName.to_string(), value)
     }
 }
 
-impl Log {
+impl<T> Log<T> {
     pub fn setClassName(&mut self, className: String) {
         self.className = className;
     }
@@ -30,12 +30,12 @@ impl Log {
         self.paramName = paramName;
     }
 
-    pub fn setValue(&mut self, value: Box<dyn Display>) {
+    pub fn setValue(&mut self, value: T) {
         self.value = value;
     }
 }
 
-impl Log {
+impl<T> Log<T> {
     pub fn className(&self) -> &str {
         &self.className
     }
@@ -48,7 +48,7 @@ impl Log {
         &self.paramName
     }
 
-    pub fn value(&self) -> &Box<dyn Display> {
+    pub fn value(&self) -> &T {
         &self.value
     }
 }
