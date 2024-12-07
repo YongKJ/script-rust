@@ -1,14 +1,19 @@
 use crate::application::pojo::dto::Log::Log;
 use crate::application::util::{FileUtil, GenUtil, LogUtil};
 use regex::{Captures, Regex};
+use serde_yaml::Value;
+use std::collections::HashMap;
+use std::env;
 
 struct Demo {
     msg: String,
 }
 
 impl Demo {
-    fn new(msg: String) -> Self {
-        Self { msg }
+    fn new() -> Self {
+        Self {
+            msg: GenUtil::getValue("msg")
+        }
     }
 
     fn test(&self) {
@@ -153,12 +158,60 @@ impl Demo {
         let value = "true";
         FileUtil::modContent(path.to_string(), regStr.to_string(), false, value.to_string());
     }
+
+    fn test20(&self) {
+        let curExe = env::current_exe();
+        if curExe.is_err() {
+            LogUtil::loggerLine(Log::of("Demo", "test20", "env::current_exe()", curExe.unwrap_err()));
+            return;
+        }
+
+        let curExePath = curExe.unwrap();
+        let execPath = curExePath.to_str().expect("");
+        LogUtil::loggerLine(Log::of("Demo", "test20", "execPath", execPath));
+    }
+
+    fn test21(&self) {
+        let appDir = FileUtil::appDir();
+        let execPath = FileUtil::execPath();
+        LogUtil::loggerLine(Log::of("Demo", "test20", "appDir", appDir));
+        LogUtil::loggerLine(Log::of("Demo", "test20", "execPath", execPath));
+    }
+
+    fn test22(&self) {
+        let yamlName = GenUtil::getYaml();
+        let yamlPath = GenUtil::getConfigPath();
+        LogUtil::loggerLine(Log::of("Demo", "test22", "yamlName", yamlName));
+        LogUtil::loggerLine(Log::of("Demo", "test22", "yamlPath", yamlPath.clone()));
+
+        let content = FileUtil::read(yamlPath);
+        let mapValue: HashMap<String, Value> = serde_yaml::from_str(content.as_str()).unwrap();
+        // let flag  = matches!(mapValue, Value::Mapping(_));
+        // let value = mapValue.get("msg").unwrap().as_str().unwrap().to_string();
+        // LogUtil::loggerLine(Log::of("Demo", "test22", "flag", flag));
+        let value = mapValue.get("msg").unwrap().as_str().unwrap().to_string();
+        LogUtil::loggerLine(Log::of("Demo", "test22", "value", value));
+    }
+
+    fn test23(&self) {
+        let value = GenUtil::getValue("msg");
+        LogUtil::loggerLine(Log::of("Demo", "test23", "value", value));
+
+        let mut mapData = GenUtil::getConfig();
+        mapData.insert("msg".to_string(), Value::from("世界，你好！"));
+        GenUtil::writeConfig(mapData);
+    }
+
 }
 
 pub fn run() {
-    let demo = Demo::new("Demo test.".to_string());
+    let demo = Demo::new();
 
-    demo.test19();
+    demo.test23();
+    // demo.test22();
+    // demo.test21();
+    // demo.test20();
+    // demo.test19();
     // demo.test18();
     // demo.test17();
     // demo.test16();

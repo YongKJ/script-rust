@@ -1,11 +1,41 @@
 use crate::application::pojo::dto::Log::Log;
 use crate::application::util::LogUtil;
+use lazy_static::lazy_static;
 use mime_guess::from_path;
 use regex::{Captures, Regex};
 use std::fs::File;
 use std::io::{BufRead, BufReader, Write};
+use std::path::PathBuf;
+use std::string::ToString;
 use std::time::SystemTime;
 use std::{env, fs, path};
+
+lazy_static! {
+    static ref BASE_DIR: String = _appDir();
+}
+
+fn _appDir() -> String {
+    let execPath = execPath();
+    if execPath.contains("script-rust") && execPath.contains("target") {
+        return dir(dir(dir(execPath)));
+    }
+
+    dir(execPath)
+}
+
+pub fn appDir() -> String {
+    BASE_DIR.to_string()
+}
+
+pub fn execPath() -> String {
+    let curExe = env::current_exe();
+    if curExe.is_err() {
+        LogUtil::loggerLine(Log::of("FileUtil", "execPath", "env::current_exe", curExe.unwrap_err()));
+        return "".to_string();
+    }
+
+    curExe.unwrap().to_str().expect("").to_string()
+}
 
 pub fn workFolder() -> String {
     let curDir = env::current_dir();
@@ -15,6 +45,33 @@ pub fn workFolder() -> String {
     }
 
     curDir.unwrap().to_str().expect("").to_string()
+}
+
+pub fn join(filePath: String, fileName: String) -> String {
+    PathBuf::from(filePath).join(fileName).to_str().unwrap().to_string()
+}
+
+pub fn dir(fileName: String) -> String {
+    PathBuf::from(fileName).parent().unwrap().to_str().unwrap().to_string()
+}
+
+pub fn getAbsPath(names: Vec<&str>) -> String {
+    let mut dir = PathBuf::from(appDir());
+    for name in names {
+        dir.push(name);
+    }
+
+    dir.to_str().unwrap().to_string()
+}
+
+pub fn isTest() -> bool {
+    let args: Vec<String> = env::args().collect();
+    if args.len() == 1 {
+        return false;
+    }
+
+    let flag = args.get(1);
+    flag.expect("").as_str() == "test".to_string()
 }
 
 pub fn create(fileName: String) {
