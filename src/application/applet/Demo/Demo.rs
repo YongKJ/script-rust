@@ -27,7 +27,7 @@ impl Demo {
 
     fn test2(&self) {
         let fileName = "C:\\$WINRE_BACKUP_PARTITION.MARKER";
-        FileUtil::create(fileName.to_string());
+        FileUtil::create(fileName);
     }
 
     fn test3(&self) {
@@ -38,14 +38,14 @@ impl Demo {
 
     fn test4(&self) {
         let fileName = "C:\\Users\\Admin\\Desktop\\顾客浏览路径聚合-1729481289990.xlsx";
-        let size = FileUtil::size(fileName.to_string());
+        let size = FileUtil::size(fileName);
         LogUtil::loggerLine(Log::of("Demo", "test3", "msg", size));
     }
 
     fn test5(&self) {
         let fileName = "C:\\Users\\Admin\\Desktop\\顾客浏览路径聚合-1729481289990.xlsx";
-        let isFolder = FileUtil::isFolder(fileName.to_string());
-        let isFile = FileUtil::isFile(fileName.to_string());
+        let isFolder = FileUtil::isFolder(fileName);
+        let isFile = FileUtil::isFile(fileName);
         LogUtil::loggerLine(Log::of("Demo", "test3", "isFolder", isFolder));
         LogUtil::loggerLine(Log::of("Demo", "test3", "isFile", isFile));
     }
@@ -54,19 +54,19 @@ impl Demo {
         // let fileName = "C:\\Users\\admin\\Desktop\\apk";
         let fileName = "C:\\Users\\admin\\Desktop\\api-go";
         // let fileName = "C:\\Users\\Admin\\Desktop\\Database-Backup";
-        let folderSize = FileUtil::sizeFolder(fileName.to_string());
+        let folderSize = FileUtil::sizeFolder(fileName);
         LogUtil::loggerLine(Log::of("Demo", "test6", "folderSize", folderSize));
     }
 
     fn test7(&self) {
         let fileName = "C:\\Users\\Admin\\Desktop\\rust-test\\rust-demo";
-        FileUtil::mkdir(fileName.to_string());
+        FileUtil::mkdir(fileName);
     }
 
     fn test8(&self) {
         // let fileName = "C:\\Users\\Admin\\Desktop\\busybox-df.json";
         let fileName = "C:\\Users\\Admin\\Desktop\\api-ts.code-workspace";
-        let lines = FileUtil::readByLine(fileName.to_string());
+        let lines = FileUtil::readByLine(fileName);
         LogUtil::loggerLine(Log::of("Demo", "test8", "lines.len()", lines.len()));
         // let content = FileUtil::read(fileName.to_string());
         // LogUtil::loggerLine(Log::of("Demo", "test8", "content.len()", content.len()));
@@ -74,7 +74,7 @@ impl Demo {
 
     fn test9(&self) {
         let fileName = "C:\\Users\\Admin\\Desktop\\test.code-workspace";
-        FileUtil::write(fileName.to_string(), "Hello world!".to_string());
+        FileUtil::write(fileName, "Hello world!");
     }
 
     fn test10(&self) {
@@ -135,13 +135,13 @@ impl Demo {
 
     fn test16(&self) {
         let str = "hello-world";
-        let replaceStr = GenUtil::toHump(str.to_string());
+        let replaceStr = GenUtil::toHump(str);
         LogUtil::loggerLine(Log::of("Demo", "test16", "replaceStr", replaceStr));
     }
 
     fn test17(&self) {
         let str = "HelloWorld";
-        let replaceStr = GenUtil::toLine(str.to_string());
+        let replaceStr = GenUtil::toLine(str);
         LogUtil::loggerLine(Log::of("Demo", "test17", "replaceStr", replaceStr));
     }
 
@@ -149,14 +149,14 @@ impl Demo {
         let regStr = "redirect:\\s\\{[\\s\\S]*?name:\\s\"(\\w+)\"[\\s\\S]*?\\}";
         let path = "D:\\Document\\MyCodes\\Gitea\\api-web-vue3\\src\\router\\index.ts";
         let value = "login";
-        FileUtil::modFile(path.to_string(), regStr.to_string(), false, value.to_string());
+        FileUtil::modFile(path, regStr, false, value);
     }
 
     fn test19(&self) {
         let regStr = "\\s+.+LOG_ENABLE = (\\S+);";
         let path = "D:\\Document\\MyCodes\\Gitea\\api-web-vue3\\src\\common\\config\\Global.ts";
         let value = "true";
-        FileUtil::modContent(path.to_string(), regStr.to_string(), false, value.to_string());
+        FileUtil::modContent(path, regStr, false, value);
     }
 
     fn test20(&self) {
@@ -184,7 +184,7 @@ impl Demo {
         LogUtil::loggerLine(Log::of("Demo", "test22", "yamlName", yamlName));
         LogUtil::loggerLine(Log::of("Demo", "test22", "yamlPath", yamlPath.clone()));
 
-        let content = FileUtil::read(yamlPath);
+        let content = FileUtil::read(yamlPath.as_str());
         let mapValue: HashMap<String, Value> = serde_yaml::from_str(content.as_str()).unwrap();
         // let flag  = matches!(mapValue, Value::Mapping(_));
         // let value = mapValue.get("msg").unwrap().as_str().unwrap().to_string();
