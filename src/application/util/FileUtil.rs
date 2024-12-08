@@ -11,10 +11,10 @@ use std::time::SystemTime;
 use std::{env, fs, path};
 
 lazy_static! {
-    static ref BASE_DIR: String = _appDir();
+    static ref APP_DIR: String = getAppDir();
 }
 
-fn _appDir() -> String {
+fn getAppDir() -> String {
     let execPath = execPath();
     if execPath.contains("script-rust") && execPath.contains("target") {
         return dir(dir(dir(execPath.as_str()).as_str()).as_str());
@@ -24,7 +24,7 @@ fn _appDir() -> String {
 }
 
 pub fn appDir() -> String {
-    BASE_DIR.to_string()
+    APP_DIR.to_string()
 }
 
 pub fn execPath() -> String {

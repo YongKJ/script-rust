@@ -1,5 +1,5 @@
 use crate::application::pojo::dto::Log::Log;
-use crate::application::util::{FileUtil, GenUtil, LogUtil};
+use crate::application::util::{FileUtil, GenUtil, LogUtil, RemoteUtil};
 use regex::{Captures, Regex};
 use serde_yaml::Value;
 use std::collections::HashMap;
@@ -202,12 +202,16 @@ impl Demo {
         GenUtil::writeConfig(mapData);
     }
 
+    fn test24(&self) {
+        RemoteUtil::execLocalCmd("D:/Software/scoop/shims/neofetch.cmd", vec![]);
+    }
 }
 
 pub fn run() {
     let demo = Demo::new();
 
-    demo.test23();
+    demo.test24();
+    // demo.test23();
     // demo.test22();
     // demo.test21();
     // demo.test20();
