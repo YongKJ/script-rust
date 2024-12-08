@@ -9,3 +9,5 @@ pub(crate) mod applet;
 pub(crate) mod Application;
 
 pub(crate) mod ApplicationTest;
+
+pub(crate) mod deploy;

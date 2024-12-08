@@ -1,3 +1,4 @@
+use crate::application::deploy::pojo::po::Script::Script;
 use crate::application::pojo::dto::Log::Log;
 use crate::application::util::{FileUtil, GenUtil, LogUtil, RemoteUtil};
 use regex::{Captures, Regex};
@@ -205,12 +206,20 @@ impl Demo {
     fn test24(&self) {
         RemoteUtil::execLocalCmd("D:/Software/scoop/shims/neofetch.cmd", vec![]);
     }
+
+    fn test25(&self) {
+        let lstScript = Script::gets();
+        for script in lstScript {
+            LogUtil::loggerLine(Log::of("Demo", "test25", "script", script));
+        }
+    }
 }
 
 pub fn run() {
     let demo = Demo::new();
 
-    demo.test24();
+    demo.test25();
+    // demo.test24();
     // demo.test23();
     // demo.test22();
     // demo.test21();
