@@ -19,7 +19,7 @@ pub struct Script {
 
 impl Display for Script {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{} {}\n\n\n", "Script", DataUtil::objToJson(&self))
+        writeln!(f, "{} {}\n", "Script", DataUtil::objToJson(&self))
     }
 }
 
