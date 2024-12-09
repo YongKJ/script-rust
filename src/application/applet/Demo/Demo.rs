@@ -213,12 +213,18 @@ impl Demo {
             LogUtil::loggerLine(Log::of("Demo", "test25", "script", script));
         }
     }
+
+    fn test26(&self) {
+        LogUtil::loggerLine(Log::of("Demo", "test26", "&self.msg", &self.msg));
+        LogUtil::loggerLine(Log::of("Demo", "test26", "FileUtil::appDir()", FileUtil::appDir()));
+    }
 }
 
 pub fn run() {
     let demo = Demo::new();
 
-    demo.test25();
+    demo.test26();
+    // demo.test25();
     // demo.test24();
     // demo.test23();
     // demo.test22();
