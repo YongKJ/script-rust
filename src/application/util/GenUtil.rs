@@ -3,7 +3,6 @@ use crate::application::util::{FileUtil, LogUtil};
 use regex::{Captures, Regex};
 use serde_yaml::Value;
 use std::collections::HashMap;
-use std::path;
 
 pub fn writeConfig(mapData: HashMap<String, Value>) {
     let content = serde_yaml::to_string(&mapData).unwrap();
@@ -43,13 +42,14 @@ pub fn getConfigPath() -> String {
 }
 
 pub fn getYaml() -> String {
-    let execPath = FileUtil::execPath();
-    if execPath.contains("script-rust") && execPath.contains("target") {
-        return getYamlByContent();
+    let execDir = FileUtil::dir(FileUtil::execPath().as_str());
+    let lstFile = FileUtil::list(execDir.as_str());
+    for file in lstFile {
+        if file.ends_with(".yaml") {
+            return file;
+        }
     }
-    let pointIndex = execPath.rfind(".").unwrap();
-    let sepIndex = execPath.rfind(path::MAIN_SEPARATOR).unwrap();
-    execPath.get(sepIndex + 1..pointIndex).unwrap().to_owned() + ".yaml"
+    getYamlByContent()
 }
 
 pub fn getYamlByContent() -> String {

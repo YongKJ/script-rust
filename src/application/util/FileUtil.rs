@@ -16,7 +16,8 @@ lazy_static! {
 
 fn getAppDir() -> String {
     let execPath = execPath();
-    if execPath.contains("script-rust") && execPath.contains("target") {
+    let sepStr = format!("{}{}{}", "rust", path::MAIN_SEPARATOR, "target");
+    if execPath.contains(sepStr.as_str()) {
         return dir(dir(dir(execPath.as_str()).as_str()).as_str());
     }
 
