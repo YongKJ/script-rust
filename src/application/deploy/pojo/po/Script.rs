@@ -1,19 +1,29 @@
 use crate::application::util::{DataUtil, FileUtil, GenUtil};
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use std::fmt::{Display, Formatter};
 use std::path;
 
-#[derive(Serialize)]
+#[derive(Serialize, Deserialize)]
 pub struct Script {
+    #[serde(rename = "rust_name")]
     rustName: String,
+    #[serde(rename = "rust_path")]
     rustPath: String,
+    #[serde(rename = "yaml_config")]
     yamlConfig: String,
+    #[serde(rename = "script_name")]
     scriptName: String,
+    #[serde(rename = "script_path")]
     scriptPath: String,
+    #[serde(rename = "script_config")]
     scriptConfig: String,
+    #[serde(rename = "script_run")]
     scriptRun: String,
+    #[serde(rename = "script_use")]
     scriptUse: String,
+    #[serde(rename = "script_project")]
     scriptProject: String,
+    #[serde(rename = "dist_path")]
     distPath: String,
 }
 
