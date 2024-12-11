@@ -1,3 +1,12 @@
+[target.armv7-linux-androideabi]
+rustflags = ["-C", "linker=armv7a-linux-androideabi35-clang.cmd"]
+
+[target.arm-linux-androideabi]
+rustflags = ["-C", "linker=armv7a-linux-androideabi35-clang.cmd"]
+
+[target.aarch64-linux-android]
+rustflags = ["-C", "linker=aarch64-linux-android35-clang.cmd"]
+
 [target.arm-unknown-linux-gnueabihf]
 rustflags = ["-C", "linker=arm-none-linux-gnueabihf-gcc.exe"]
 
