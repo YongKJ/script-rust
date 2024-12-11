@@ -1,14 +1,20 @@
-[target.x86_64-unknown-linux-gnu]
-rustflags = ["-C", "linker=x86_64-linux-gnu-gcc.exe", "-C", "target-feature=+crt-static"]
+[target.arm-unknown-linux-gnueabi]
+rustflags = ["-C", "linker=D:/Software/scoop/cache/gcc-arm-none-eabi/bin/arm-none-eabi-gcc.exe"]
 
-[target.x86_64-unknown-linux-musl]
-rustflags = ["-C", "linker=x86_64-linux-musl-gcc.exe"]
+[target.arm-unknown-linux-gnueabihf]
+rustflags = ["-C", "linker=arm-none-linux-gnueabihf-gcc.exe"]
 
 [target.aarch64-unknown-linux-gnu]
 rustflags = ["-C", "linker=aarch64-none-linux-gnu-gcc.exe"]
 
 [target.aarch64-unknown-linux-musl]
 rustflags = ["-C", "linker=aarch64-linux-musl-gcc.exe"]
+
+[target.x86_64-unknown-linux-gnu]
+rustflags = ["-C", "linker=x86_64-linux-gnu-gcc.exe", "-C", "target-feature=+crt-static"]
+
+[target.x86_64-unknown-linux-musl]
+rustflags = ["-C", "linker=x86_64-linux-musl-gcc.exe"]
 
 [target.x86_64-pc-windows-gnu]
 rustflags = ["-C", "linker=x86_64-w64-mingw32-gcc.exe"]
