@@ -12,3 +12,6 @@ rustflags = ["-C", "linker=aarch64-linux-musl-gcc.exe"]
 
 [target.x86_64-pc-windows-gnu]
 rustflags = ["-C", "linker=x86_64-w64-mingw32-gcc.exe"]
+
+[target.i686-pc-windows-gnu]
+rustflags = ["-C", "linker=i686-w64-mingw32-gcc.exe"]
