@@ -4,7 +4,7 @@ use crate::application::util::{FileUtil, GenUtil, LogUtil, RemoteUtil};
 use regex::{Captures, Regex};
 use serde_yaml::Value;
 use std::collections::HashMap;
-use std::env;
+use std::{env, io};
 
 struct Demo {
     msg: String,
@@ -218,12 +218,22 @@ impl Demo {
         LogUtil::loggerLine(Log::of("Demo", "test26", "&self.msg", &self.msg));
         LogUtil::loggerLine(Log::of("Demo", "test26", "FileUtil::appDir()", FileUtil::appDir()));
     }
+
+    fn test27(&self) {
+        let mut input = String::new();
+        let result = io::stdin().read_line(&mut input);
+        if result.is_err() {
+            LogUtil::loggerLine(Log::of("Demo", "test27", "io::stdin().read_line", result.unwrap_err()));
+        }
+        LogUtil::loggerLine(Log::of("Demo", "test27", "input", input));
+    }
 }
 
 pub fn run() {
     let demo = Demo::new();
 
-    demo.test26();
+    demo.test27();
+    // demo.test26();
     // demo.test25();
     // demo.test24();
     // demo.test23();
