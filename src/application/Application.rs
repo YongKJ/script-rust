@@ -1,4 +1,4 @@
-use crate::application::applet::Demo::Demo;
+use crate::application::deploy::service::BuildScriptService::BuildScriptService;
 
 struct Application {}
 
@@ -8,7 +8,8 @@ impl Application {
     }
 
     fn run(&self) {
-        Demo::run()
+        // Demo::run()
+        BuildScriptService::run()
     }
 }
 

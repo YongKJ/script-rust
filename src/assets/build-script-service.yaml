@@ -1,0 +1,30 @@
+os_info:
+  - name: "windows"
+    arch:
+      - name: "x86_64"
+        compilation_type:
+          - "msvc"
+          - "gnu"
+      - name: "i686"
+        compilation_type:
+          - "msvc"
+          - "gnu"
+
+  - name: "linux"
+    arch:
+      - name: "x86_64"
+        compilation_type:
+          - "gnu"
+          - "musl"
+      - name: "aarch64"
+        compilation_type:
+          - "gnu"
+          - "musl"
+          - "android"
+      - name: "arm"
+        compilation_type:
+          - "gnueabihf"
+          - "androideabi"
+      - name: "armv7"
+        compilation_type:
+          - "androideabi"
