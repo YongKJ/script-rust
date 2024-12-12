@@ -1,6 +1,10 @@
 
 :: SET DOCKER_HOST=tcp://192.168.3.25:2375
 
+:: cross build --target=aarch64-unknown-linux-musl
+
+:: ===================================================================================================
+
 :: cargo build --target=armv7-linux-androideabi
 
 :: cargo build --target=arm-linux-androideabi
