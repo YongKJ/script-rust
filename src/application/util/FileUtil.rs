@@ -317,21 +317,21 @@ pub fn modifyContent(path: &str, regStr: &str, isAll: bool, valueFunc: impl Fn(&
     if content.contains("\r\n") {
         contentBreak = "\r\n";
     }
-    let mut updateFlag = false;
-    let mut lstLine: Vec<String> = Vec::new();
     let regex = Regex::new(regStr).unwrap();
-    let lines: Vec<&str> = content.split(contentBreak).collect();
-    for line in lines {
-        if (!isAll && updateFlag) || !regex.is_match(line) {
-            lstLine.push(line.to_string());
+    let mut lines: Vec<String> = content.split(contentBreak).map(String::from).collect();
+    for i in 0..lines.len() {
+        let line = lines.get(i).unwrap();
+        if !regex.is_match(line) {
             continue;
         }
         let lstMatch = regex.captures(line).unwrap();
         if lstMatch.len() == 1 {
             continue;
         }
-        updateFlag = true;
-        lstLine.push(regex.replace_all(line, valueFunc(&lstMatch)).to_string());
+        lines[i] = regex.replace_all(line, valueFunc(&lstMatch)).to_string();
+        if !isAll {
+            break;
+        }
     }
-    write(path, lstLine.join(contentBreak).as_str())
+    write(path, lines.join(contentBreak).as_str())
 }
