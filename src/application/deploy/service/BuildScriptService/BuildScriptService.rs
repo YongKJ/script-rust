@@ -3,7 +3,7 @@ use crate::application::deploy::pojo::po::Script::Script;
 use crate::application::pojo::dto::Log::Log;
 use crate::application::util::{DataUtil, LogUtil};
 
-pub struct BuildScriptService {
+struct BuildScriptService {
     osInfos: Vec<OsInfo>,
     scripts: Vec<Script>
 }

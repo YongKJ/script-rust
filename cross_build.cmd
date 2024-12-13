@@ -23,7 +23,7 @@
 
 :: cargo build --target=i686-unknown-linux-musl
 
-cargo build --target=x86_64-pc-windows-msvc
+cargo build --target=x86_64-pc-windows-msvc --release
 
 :: cargo build --target=x86_64-pc-windows-gnu
 
