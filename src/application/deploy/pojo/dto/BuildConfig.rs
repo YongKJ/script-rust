@@ -1,4 +1,4 @@
-use crate::application::util::DataUtil;
+use crate::application::util::{DataUtil, FileUtil};
 use serde::{Deserialize, Serialize};
 use std::fmt::{Display, Formatter};
 
@@ -12,6 +12,8 @@ pub struct BuildConfig {
     crossBuildPath: String,
     #[serde(rename = "cross_build_content")]
     crossBuildContent: String,
+    #[serde(rename = "target_path")]
+    targetPath: String,
     #[serde(rename = "release_target_path")]
     releaseTargetPath: String,
     #[serde(rename = "debug_target_path")]
@@ -33,15 +35,28 @@ impl Display for BuildConfig {
 }
 
 impl BuildConfig {
-    fn new(appPath: String, appTestPath: String, crossBuildPath: String, crossBuildContent: String, releaseTargetPath: String, debugTargetPath: String, scriptRunPattern: String, scriptRunOriginal: String, packageUsePattern: String, packageUseOriginal: String) -> Self {
-        Self { appPath, appTestPath, crossBuildPath, crossBuildContent, releaseTargetPath, debugTargetPath, scriptRunPattern, scriptRunOriginal, packageUsePattern, packageUseOriginal }
+    fn new(appPath: String, appTestPath: String, crossBuildPath: String, crossBuildContent: String, targetPath: String, releaseTargetPath: String, debugTargetPath: String, scriptRunPattern: String, scriptRunOriginal: String, packageUsePattern: String, packageUseOriginal: String) -> Self {
+        Self { appPath, appTestPath, crossBuildPath, crossBuildContent, targetPath, releaseTargetPath, debugTargetPath, scriptRunPattern, scriptRunOriginal, packageUsePattern, packageUseOriginal }
     }
 
-    pub fn of(appPath: &str, appTestPath: &str, crossBuildPath: &str, crossBuildContent: &str, releaseTargetPath: &str, debugTargetPath: &str, scriptRunPattern: &str, scriptRunOriginal: &str, packageUsePattern: &str, packageUseOriginal: &str) -> Self {
-        Self::new(appPath.to_string(), appTestPath.to_string(), crossBuildPath.to_string(), crossBuildContent.to_string(), releaseTargetPath.to_string(), debugTargetPath.to_string(), scriptRunPattern.to_string(), scriptRunOriginal.to_string(), packageUsePattern.to_string(), packageUseOriginal.to_string())
+    pub fn of(appPath: &str, appTestPath: &str, crossBuildPath: &str, crossBuildContent: &str, targetPath: &str, releaseTargetPath: &str, debugTargetPath: &str, scriptRunPattern: &str, scriptRunOriginal: &str, packageUsePattern: &str, packageUseOriginal: &str) -> Self {
+        Self::new(appPath.to_string(), appTestPath.to_string(), crossBuildPath.to_string(), crossBuildContent.to_string(), targetPath.to_string(), releaseTargetPath.to_string(), debugTargetPath.to_string(), scriptRunPattern.to_string(), scriptRunOriginal.to_string(), packageUsePattern.to_string(), packageUseOriginal.to_string())
     }
 
-    pub fn get() -> BuildConfig {}
+    pub fn get() -> BuildConfig {
+        let appTestPath = FileUtil::getAbsPath(vec!["src", "application", "ApplicationTest.rs"]);
+        let appPath = FileUtil::getAbsPath(vec!["src", "application", "Application.rs"]);
+        let crossBuildPath = FileUtil::getAbsPath(vec!["cross_build.cmd"]);
+        let crossBuildContent = FileUtil::read(crossBuildPath.as_str());
+        let targetPath = FileUtil::getAbsPath(vec!["target"]);
+        Self::of(
+            appPath.as_str(), appTestPath.as_str(), crossBuildPath.as_str(), crossBuildContent.as_str(),
+            targetPath.as_str(), "", "", "\\s+(\\S+)::run\\(\\)",
+            "Demo", "use\\s+(crate\\S+);",
+            "crate::application::applet::Demo::Demo",
+        )
+    }
+
 }
 
 impl BuildConfig {
@@ -59,6 +74,10 @@ impl BuildConfig {
 
     pub fn set_crossBuildContent(&mut self, crossBuildContent: String) {
         self.crossBuildContent = crossBuildContent;
+    }
+
+    pub fn set_targetPath(&mut self, targetPath: String) {
+        self.targetPath = targetPath;
     }
 
     pub fn set_releaseTargetPath(&mut self, releaseTargetPath: String) {
@@ -101,6 +120,10 @@ impl BuildConfig {
 
     pub fn crossBuildContent(&self) -> &str {
         &self.crossBuildContent
+    }
+
+    pub fn targetPath(&self) -> &str {
+        &self.targetPath
     }
 
     pub fn releaseTargetPath(&self) -> &str {

@@ -9,7 +9,6 @@ impl Application {
 
     fn run(&self) {
         Demo::run();
-        // BuildScriptService::run();
     }
 }
 
