@@ -35,8 +35,11 @@ impl OsInfo {
 
     pub fn gets() -> Vec<OsInfo> {
         let mapData = GenUtil::getConfig();
-        let osInfoData = mapData.get("os_info").unwrap();
-        let content = serde_yaml::to_string(osInfoData).unwrap();
+        let osInfoData = mapData.get("os_info");
+        if osInfoData.is_none() {
+            return Vec::new();
+        }
+        let content = serde_yaml::to_string(osInfoData.unwrap()).unwrap();
         let lstData = serde_yaml::from_str(content.as_str());
         if lstData.is_err() {
             LogUtil::loggerLine(Log::of("OsInfo", "gets", "err", lstData.unwrap_err()));
