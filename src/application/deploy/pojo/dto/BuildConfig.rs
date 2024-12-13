@@ -1,3 +1,4 @@
+use crate::application::deploy::pojo::po::CompilationTypeInfo::CompilationTypeInfo;
 use crate::application::util::{DataUtil, FileUtil};
 use serde::{Deserialize, Serialize};
 use std::fmt::{Display, Formatter};
@@ -55,6 +56,17 @@ impl BuildConfig {
             "Demo", "use\\s+(crate\\S+);",
             "crate::application::applet::Demo::Demo",
         )
+    }
+
+    pub fn setBinTargetPath(mut buildConfig: BuildConfig, compilationTypeInfo: CompilationTypeInfo) {
+        let mut binName = "script_rust".to_string();
+        if cfg!(windows) {
+            binName = binName + ".exe";
+        }
+        let debugTargetBin = FileUtil::getAbsPath(vec!["target", compilationTypeInfo.target(), "debug", binName.as_str()]);
+        let releaseTargetBin = FileUtil::getAbsPath(vec!["target", compilationTypeInfo.target(), "release", binName.as_str()]);
+        buildConfig.set_releaseTargetPath(releaseTargetBin);
+        buildConfig.set_debugTargetPath(debugTargetBin);
     }
 
 }
