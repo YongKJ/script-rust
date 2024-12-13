@@ -12,8 +12,8 @@ impl<T> Log<T> {
         Self { className, methodName, paramName, value }
     }
 
-    pub fn of(className: &str, methodName: &str, paramName: &str, value: T) -> Log<T> {
-        Log::new(className.to_string(), methodName.to_string(), paramName.to_string(), value)
+    pub fn of(className: &str, methodName: &str, paramName: &str, value: T) -> Self {
+        Self::new(className.to_string(), methodName.to_string(), paramName.to_string(), value)
     }
 }
 

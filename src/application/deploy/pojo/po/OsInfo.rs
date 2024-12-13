@@ -29,13 +29,15 @@ impl OsInfo {
         Self { name, arch }
     }
 
-    pub fn of(name: &str, arch: Vec<ArchInfo>) -> OsInfo {
-        OsInfo::new(name.to_string(), arch)
+    pub fn of(name: &str, arch: Vec<ArchInfo>) -> Self {
+        Self::new(name.to_string(), arch)
     }
 
     pub fn gets() -> Vec<OsInfo> {
+        let osInfo = GenUtil::getValue("os_info");
         let mapData = GenUtil::getConfig();
-        let osInfoData = mapData.get("os_info");
+        let osInfoKey = format!("{}_{}", osInfo, "os_info");
+        let osInfoData = mapData.get(osInfoKey.as_str());
         if osInfoData.is_none() {
             return Vec::new();
         }

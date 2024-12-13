@@ -38,8 +38,8 @@ impl Script {
         Self { rustName, rustPath, yamlConfig, scriptName, scriptPath, scriptConfig, scriptRun, scriptUse, scriptProject, distPath }
     }
 
-    pub fn of(rustName: &str, rustPath: &str, yamlConfig: &str, scriptName: &str, scriptPath: &str, scriptConfig: &str, scriptRun: &str, scriptUse: &str, scriptProject: &str, distPath: &str) -> Script {
-        Script::new(rustName.to_string(), rustPath.to_string(), yamlConfig.to_string(), scriptName.to_string(), scriptPath.to_string(), scriptConfig.to_string(), scriptRun.to_string(), scriptUse.to_string(), scriptProject.to_string(), distPath.to_string())
+    pub fn of(rustName: &str, rustPath: &str, yamlConfig: &str, scriptName: &str, scriptPath: &str, scriptConfig: &str, scriptRun: &str, scriptUse: &str, scriptProject: &str, distPath: &str) -> Self {
+        Self::new(rustName.to_string(), rustPath.to_string(), yamlConfig.to_string(), scriptName.to_string(), scriptPath.to_string(), scriptConfig.to_string(), scriptRun.to_string(), scriptUse.to_string(), scriptProject.to_string(), distPath.to_string())
     }
 
     pub fn gets() -> Vec<Script> {

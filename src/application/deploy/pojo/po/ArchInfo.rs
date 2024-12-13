@@ -1,3 +1,4 @@
+use crate::application::deploy::pojo::po::CompilationTypeInfo::CompilationTypeInfo;
 use crate::application::util::DataUtil;
 use serde::{Deserialize, Serialize};
 use std::fmt::{Display, Formatter};
@@ -7,7 +8,7 @@ pub struct ArchInfo {
     #[serde(rename = "name")]
     name: String,
     #[serde(rename = "compilation_type")]
-    compilationType: Vec<String>,
+    compilationType: Vec<CompilationTypeInfo>,
 }
 
 impl Display for ArchInfo {
@@ -17,12 +18,12 @@ impl Display for ArchInfo {
 }
 
 impl ArchInfo {
-    fn new(name: String, compilationType: Vec<String>) -> Self {
+    fn new(name: String, compilationType: Vec<CompilationTypeInfo>) -> Self {
         Self { name, compilationType }
     }
 
-    pub fn of(name: &str, compilationType: Vec<String>) -> ArchInfo {
-        ArchInfo::new(name.to_string(), compilationType)
+    pub fn of(name: &str, compilationType: Vec<CompilationTypeInfo>) -> Self {
+        Self::new(name.to_string(), compilationType)
     }
 }
 
@@ -31,7 +32,7 @@ impl ArchInfo {
         self.name = name;
     }
 
-    pub fn set_compilationType(&mut self, compilationType: Vec<String>) {
+    pub fn set_compilationType(&mut self, compilationType: Vec<CompilationTypeInfo>) {
         self.compilationType = compilationType;
     }
 }
@@ -41,7 +42,7 @@ impl ArchInfo {
         &self.name
     }
 
-    pub fn compilationType(&self) -> &Vec<String> {
+    pub fn compilationType(&self) -> &Vec<CompilationTypeInfo> {
         &self.compilationType
     }
 }
