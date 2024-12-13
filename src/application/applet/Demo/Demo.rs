@@ -227,12 +227,21 @@ impl Demo {
         }
         LogUtil::loggerLine(Log::of("Demo", "test27", "input", input));
     }
+
+    fn test28(&self) {
+        let path = "D:\\Document\\MyCodes\\Github\\script_rust\\src\\application\\Application.rs";
+        let value = "crate::application::applet::BuildScriptService::BuildScriptService";
+        let regStr = "use\\s+(crate\\S+);";
+
+        FileUtil::modContent(path, regStr, false, value);
+    }
 }
 
 pub fn run() {
     let demo = Demo::new();
 
-    demo.test27();
+    demo.test28();
+    // demo.test27();
     // demo.test26();
     // demo.test25();
     // demo.test24();
