@@ -1,0 +1,48 @@
+os_info: "windows"
+
+windows_os_info:
+  - name: "windows"
+    arch:
+      - name: "x86_64"
+        compilation_type:
+          - name: "msvc"
+            target: "x86_64-pc-windows-msvc"
+          - name: "gnu"
+            target: "x86_64-pc-windows-gnu"
+
+      - name: "i686"
+        compilation_type:
+          - name: "msvc"
+            target: "i686-pc-windows-msvc"
+          - name: "gnu"
+            target: "i686-pc-windows-gnu"
+
+  - name: "linux"
+    arch:
+      - name: "x86_64"
+        compilation_type:
+          - name: "gnu"
+            target: "x86_64-unknown-linux-gnu"
+          - name: "musl"
+            target: "x86_64-unknown-linux-musl"
+
+      - name: "aarch64"
+        compilation_type:
+          - name: "gnu"
+            target: "aarch64-unknown-linux-gnu"
+          - name: "musl"
+            target: "aarch64-unknown-linux-musl"
+          - name: "android"
+            target: "aarch64-linux-android"
+
+      - name: "arm"
+        compilation_type:
+          - name: "gnueabihf"
+            target: "arm-unknown-linux-gnueabihf"
+          - name: "androideabi"
+            target: "arm-linux-androideabi"
+
+      - name: "armv7"
+        compilation_type:
+          - name: "androideabi"
+            target: "armv7-linux-androideabi"
