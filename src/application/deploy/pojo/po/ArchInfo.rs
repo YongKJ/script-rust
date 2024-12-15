@@ -8,7 +8,7 @@ pub struct ArchInfo {
     #[serde(rename = "name")]
     name: String,
     #[serde(rename = "compilation_type")]
-    compilationType: Vec<CompilationTypeInfo>,
+    compilationTypes: Vec<CompilationTypeInfo>,
 }
 
 impl Display for ArchInfo {
@@ -18,12 +18,12 @@ impl Display for ArchInfo {
 }
 
 impl ArchInfo {
-    fn new(name: String, compilationType: Vec<CompilationTypeInfo>) -> Self {
-        Self { name, compilationType }
+    fn new(name: String, compilationTypes: Vec<CompilationTypeInfo>) -> Self {
+        Self { name, compilationTypes }
     }
 
-    pub fn of(name: &str, compilationType: Vec<CompilationTypeInfo>) -> Self {
-        Self::new(name.to_string(), compilationType)
+    pub fn of(name: &str, compilationTypes: Vec<CompilationTypeInfo>) -> Self {
+        Self::new(name.to_string(), compilationTypes)
     }
 }
 
@@ -32,8 +32,8 @@ impl ArchInfo {
         self.name = name;
     }
 
-    pub fn set_compilationType(&mut self, compilationType: Vec<CompilationTypeInfo>) {
-        self.compilationType = compilationType;
+    pub fn set_compilationTypes(&mut self, compilationTypes: Vec<CompilationTypeInfo>) {
+        self.compilationTypes = compilationTypes;
     }
 }
 
@@ -42,7 +42,7 @@ impl ArchInfo {
         &self.name
     }
 
-    pub fn compilationType(&self) -> &Vec<CompilationTypeInfo> {
-        &self.compilationType
+    pub fn compilationTypes(&self) -> &Vec<CompilationTypeInfo> {
+        &self.compilationTypes
     }
 }

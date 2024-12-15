@@ -9,7 +9,7 @@ pub struct OsInfo {
     #[serde(rename = "name")]
     name: String,
     #[serde(rename = "arch")]
-    arch: Vec<ArchInfo>,
+    archs: Vec<ArchInfo>,
 }
 
 impl Debug for OsInfo {
@@ -25,12 +25,12 @@ impl Display for OsInfo {
 }
 
 impl OsInfo {
-    fn new(name: String, arch: Vec<ArchInfo>) -> Self {
-        Self { name, arch }
+    fn new(name: String, archs: Vec<ArchInfo>) -> Self {
+        Self { name, archs }
     }
 
-    pub fn of(name: &str, arch: Vec<ArchInfo>) -> Self {
-        Self::new(name.to_string(), arch)
+    pub fn of(name: &str, archs: Vec<ArchInfo>) -> Self {
+        Self::new(name.to_string(), archs)
     }
 
     pub fn gets() -> Vec<OsInfo> {
@@ -56,8 +56,8 @@ impl OsInfo {
         self.name = name;
     }
 
-    pub fn set_arch(&mut self, arch: Vec<ArchInfo>) {
-        self.arch = arch;
+    pub fn set_archs(&mut self, archs: Vec<ArchInfo>) {
+        self.archs = archs;
     }
 }
 
@@ -66,8 +66,8 @@ impl OsInfo {
         &self.name
     }
 
-    pub fn arch(&self) -> &Vec<ArchInfo> {
-        &self.arch
+    pub fn archs(&self) -> &Vec<ArchInfo> {
+        &self.archs
     }
 }
 

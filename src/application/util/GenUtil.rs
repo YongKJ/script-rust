@@ -3,6 +3,21 @@ use crate::application::util::{FileUtil, LogUtil};
 use regex::{Captures, Regex};
 use serde_yaml::Value;
 use std::collections::HashMap;
+use std::io;
+
+pub fn readParams() -> Vec<String> {
+    let mut input = String::new();
+    let result = io::stdin().read_line(&mut input);
+    if result.is_err() {
+        LogUtil::loggerLine(Log::of("GenUtil", "readParams", "io::stdin().read_line", result.unwrap_err()));
+        return Vec::new();
+    }
+    input.trim().split(" ").map(String::from).collect()
+}
+
+pub fn strToUsize(str: &str) -> usize {
+    str.parse().unwrap()
+}
 
 pub fn writeConfig(mapData: HashMap<String, Value>) {
     let content = serde_yaml::to_string(&mapData).unwrap();

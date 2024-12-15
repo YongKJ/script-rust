@@ -11,8 +11,6 @@ pub struct BuildConfig {
     appTestPath: String,
     #[serde(rename = "cross_build_path")]
     crossBuildPath: String,
-    #[serde(rename = "cross_build_content")]
-    crossBuildContent: String,
     #[serde(rename = "target_path")]
     targetPath: String,
     #[serde(rename = "release_target_path")]
@@ -27,6 +25,10 @@ pub struct BuildConfig {
     packageUsePattern: String,
     #[serde(rename = "package_use_original")]
     packageUseOriginal: String,
+    #[serde(rename = "build_target_pattern")]
+    buildTargetPattern: String,
+    #[serde(rename = "build_target_original")]
+    buildTargetOriginal: String,
 }
 
 impl Display for BuildConfig {
@@ -36,29 +38,32 @@ impl Display for BuildConfig {
 }
 
 impl BuildConfig {
-    fn new(appPath: String, appTestPath: String, crossBuildPath: String, crossBuildContent: String, targetPath: String, releaseTargetPath: String, debugTargetPath: String, scriptRunPattern: String, scriptRunOriginal: String, packageUsePattern: String, packageUseOriginal: String) -> Self {
-        Self { appPath, appTestPath, crossBuildPath, crossBuildContent, targetPath, releaseTargetPath, debugTargetPath, scriptRunPattern, scriptRunOriginal, packageUsePattern, packageUseOriginal }
+    fn new(appPath: String, appTestPath: String, crossBuildPath: String, targetPath: String, releaseTargetPath: String, debugTargetPath: String, scriptRunPattern: String, scriptRunOriginal: String, packageUsePattern: String, packageUseOriginal: String, buildTargetPattern: String, buildTargetOriginal: String) -> Self {
+        Self { appPath, appTestPath, crossBuildPath, targetPath, releaseTargetPath, debugTargetPath, scriptRunPattern, scriptRunOriginal, packageUsePattern, packageUseOriginal, buildTargetPattern, buildTargetOriginal }
     }
 
-    pub fn of(appPath: &str, appTestPath: &str, crossBuildPath: &str, crossBuildContent: &str, targetPath: &str, releaseTargetPath: &str, debugTargetPath: &str, scriptRunPattern: &str, scriptRunOriginal: &str, packageUsePattern: &str, packageUseOriginal: &str) -> Self {
-        Self::new(appPath.to_string(), appTestPath.to_string(), crossBuildPath.to_string(), crossBuildContent.to_string(), targetPath.to_string(), releaseTargetPath.to_string(), debugTargetPath.to_string(), scriptRunPattern.to_string(), scriptRunOriginal.to_string(), packageUsePattern.to_string(), packageUseOriginal.to_string())
+    pub fn of(appPath: &str, appTestPath: &str, crossBuildPath: &str, targetPath: &str, releaseTargetPath: &str, debugTargetPath: &str, scriptRunPattern: &str, scriptRunOriginal: &str, packageUsePattern: &str, packageUseOriginal: &str, buildTargetPattern: &str, buildTargetOriginal: &str) -> Self {
+        Self::new(appPath.to_string(), appTestPath.to_string(), crossBuildPath.to_string().to_string(), targetPath.to_string(), releaseTargetPath.to_string(), debugTargetPath.to_string(), scriptRunPattern.to_string(), scriptRunOriginal.to_string(), packageUsePattern.to_string(), packageUseOriginal.to_string(), buildTargetPattern.to_string(), buildTargetOriginal.to_string())
     }
 
     pub fn get() -> BuildConfig {
         let appTestPath = FileUtil::getAbsPath(vec!["src", "application", "ApplicationTest.rs"]);
         let appPath = FileUtil::getAbsPath(vec!["src", "application", "Application.rs"]);
-        let crossBuildPath = FileUtil::getAbsPath(vec!["cross_build.cmd"]);
-        let crossBuildContent = FileUtil::read(crossBuildPath.as_str());
+        let mut crossBuildPath = FileUtil::getAbsPath(vec!["cross_build.sh"]);
         let targetPath = FileUtil::getAbsPath(vec!["target"]);
+        if cfg!(windows) {
+            crossBuildPath = FileUtil::getAbsPath(vec!["cross_build.cmd"])
+        }
         Self::of(
-            appPath.as_str(), appTestPath.as_str(), crossBuildPath.as_str(), crossBuildContent.as_str(),
-            targetPath.as_str(), "", "", "\\s+(\\S+)::run\\(\\)",
+            appPath.as_str(), appTestPath.as_str(), crossBuildPath.as_str(), targetPath.as_str(),
+            "", "", "\\s+(\\S+)::run\\(\\)",
             "Demo", "use\\s+(crate\\S+);",
             "crate::application::applet::Demo::Demo",
+            "(x86_64-pc-windows-msvc)", "x86_64-pc-windows-msvc"
         )
     }
 
-    pub fn setBinTargetPath(mut buildConfig: BuildConfig, compilationTypeInfo: CompilationTypeInfo) {
+    pub fn setBinTargetPath(mut buildConfig: &BuildConfig, compilationTypeInfo: &CompilationTypeInfo) {
         let mut binName = "script_rust".to_string();
         if cfg!(windows) {
             binName = binName + ".exe";
@@ -82,10 +87,6 @@ impl BuildConfig {
 
     pub fn set_crossBuildPath(&mut self, crossBuildPath: String) {
         self.crossBuildPath = crossBuildPath;
-    }
-
-    pub fn set_crossBuildContent(&mut self, crossBuildContent: String) {
-        self.crossBuildContent = crossBuildContent;
     }
 
     pub fn set_targetPath(&mut self, targetPath: String) {
@@ -115,6 +116,14 @@ impl BuildConfig {
     pub fn set_packageUseOriginal(&mut self, packageUseOriginal: String) {
         self.packageUseOriginal = packageUseOriginal;
     }
+
+    pub fn set_buildTargetPattern(&mut self, buildTargetPattern: String) {
+        self.buildTargetPattern = buildTargetPattern;
+    }
+
+    pub fn set_buildTargetOriginal(&mut self, buildTargetOriginal: String) {
+        self.buildTargetOriginal = buildTargetOriginal;
+    }
 }
 
 impl BuildConfig {
@@ -128,10 +137,6 @@ impl BuildConfig {
 
     pub fn crossBuildPath(&self) -> &str {
         &self.crossBuildPath
-    }
-
-    pub fn crossBuildContent(&self) -> &str {
-        &self.crossBuildContent
     }
 
     pub fn targetPath(&self) -> &str {
@@ -161,4 +166,13 @@ impl BuildConfig {
     pub fn packageUseOriginal(&self) -> &str {
         &self.packageUseOriginal
     }
+
+    pub fn buildTargetPattern(&self) -> &str {
+        &self.buildTargetPattern
+    }
+
+    pub fn buildTargetOriginal(&self) -> &str {
+        &self.buildTargetOriginal
+    }
+
 }
