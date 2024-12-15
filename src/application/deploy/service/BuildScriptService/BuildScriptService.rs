@@ -20,7 +20,7 @@ impl BuildScriptService {
         }
     }
 
-    fn apply(&self) {
+    fn apply(&mut self) {
         println!();
         for (i, script) in self.scripts.iter().enumerate() {
             println!("{}. {}", i + 1, script.rustName());
@@ -61,12 +61,19 @@ impl BuildScriptService {
 
         for scriptNum in scriptNums {
             let index = GenUtil::strToUsize(scriptNum.as_str()) - 1;
-            if 0 <= index && index < self.scripts.len() {
-                let script = self.scripts.get(index).unwrap();
-                BuildConfig::setBinTargetPath(&self.buildConfig, compilationInfo);
-                Script::setDistPath(script, &self.buildConfig, osInfo.name(), archInfo.name());
-                self.build(script, compilationInfo);
+            if index >= self.scripts.len() {
+                continue;
             }
+
+            let (debugTargetBin, releaseTargetBin) = BuildConfig::getBinTargetPath(compilationInfo);
+            self.buildConfig.set_debugTargetPath(debugTargetBin);
+            self.buildConfig.set_releaseTargetPath(releaseTargetBin);
+
+            let (scriptPath, targetPath) = Script::getDistPath(&self.scripts[index], &self.buildConfig, osInfo, archInfo);
+            self.scripts[index].set_scriptPath(scriptPath);
+            self.scripts[index].set_targetPath(targetPath);
+
+            self.build(&self.scripts[index], compilationInfo);
         }
     }
 

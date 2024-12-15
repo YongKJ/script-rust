@@ -1,4 +1,5 @@
 use crate::application::deploy::pojo::po::CompilationTypeInfo::CompilationTypeInfo;
+use crate::application::deploy::pojo::po::Script::Script;
 use crate::application::util::{DataUtil, FileUtil};
 use serde::{Deserialize, Serialize};
 use std::fmt::{Display, Formatter};
@@ -29,6 +30,10 @@ pub struct BuildConfig {
     buildTargetPattern: String,
     #[serde(rename = "build_target_original")]
     buildTargetOriginal: String,
+    #[serde(rename = "add_target_pattern")]
+    addTargetPattern: String,
+    #[serde(rename = "add_target_original")]
+    addTargetOriginal: String,
 }
 
 impl Display for BuildConfig {
@@ -38,12 +43,12 @@ impl Display for BuildConfig {
 }
 
 impl BuildConfig {
-    fn new(appPath: String, appTestPath: String, crossBuildPath: String, targetPath: String, releaseTargetPath: String, debugTargetPath: String, scriptRunPattern: String, scriptRunOriginal: String, packageUsePattern: String, packageUseOriginal: String, buildTargetPattern: String, buildTargetOriginal: String) -> Self {
-        Self { appPath, appTestPath, crossBuildPath, targetPath, releaseTargetPath, debugTargetPath, scriptRunPattern, scriptRunOriginal, packageUsePattern, packageUseOriginal, buildTargetPattern, buildTargetOriginal }
+    fn new(appPath: String, appTestPath: String, crossBuildPath: String, targetPath: String, releaseTargetPath: String, debugTargetPath: String, scriptRunPattern: String, scriptRunOriginal: String, packageUsePattern: String, packageUseOriginal: String, buildTargetPattern: String, buildTargetOriginal: String, addTargetPattern: String, addTargetOriginal: String) -> Self {
+        Self { appPath, appTestPath, crossBuildPath, targetPath, releaseTargetPath, debugTargetPath, scriptRunPattern, scriptRunOriginal, packageUsePattern, packageUseOriginal, buildTargetPattern, buildTargetOriginal, addTargetPattern, addTargetOriginal }
     }
 
-    pub fn of(appPath: &str, appTestPath: &str, crossBuildPath: &str, targetPath: &str, releaseTargetPath: &str, debugTargetPath: &str, scriptRunPattern: &str, scriptRunOriginal: &str, packageUsePattern: &str, packageUseOriginal: &str, buildTargetPattern: &str, buildTargetOriginal: &str) -> Self {
-        Self::new(appPath.to_string(), appTestPath.to_string(), crossBuildPath.to_string().to_string(), targetPath.to_string(), releaseTargetPath.to_string(), debugTargetPath.to_string(), scriptRunPattern.to_string(), scriptRunOriginal.to_string(), packageUsePattern.to_string(), packageUseOriginal.to_string(), buildTargetPattern.to_string(), buildTargetOriginal.to_string())
+    pub fn of(appPath: &str, appTestPath: &str, crossBuildPath: &str, targetPath: &str, releaseTargetPath: &str, debugTargetPath: &str, scriptRunPattern: &str, scriptRunOriginal: &str, packageUsePattern: &str, packageUseOriginal: &str, buildTargetPattern: &str, buildTargetOriginal: &str, addTargetPattern: &str, addTargetOriginal: &str) -> Self {
+        Self::new(appPath.to_string(), appTestPath.to_string(), crossBuildPath.to_string().to_string(), targetPath.to_string(), releaseTargetPath.to_string(), debugTargetPath.to_string(), scriptRunPattern.to_string(), scriptRunOriginal.to_string(), packageUsePattern.to_string(), packageUseOriginal.to_string(), buildTargetPattern.to_string(), buildTargetOriginal.to_string(), addTargetPattern.to_string(), addTargetOriginal.to_string())
     }
 
     pub fn get() -> BuildConfig {
@@ -59,19 +64,19 @@ impl BuildConfig {
             "", "", "\\s+(\\S+)::run\\(\\)",
             "Demo", "use\\s+(crate\\S+);",
             "crate::application::applet::Demo::Demo",
-            "(x86_64-pc-windows-msvc)", "x86_64-pc-windows-msvc"
+            "[\\s\\S]+=(\\S+)\\s--release", "x86_64-pc-windows-msvc",
+            "[\\s\\S]+add\\s(\\S+)", "x86_64-pc-windows-msvc"
         )
     }
 
-    pub fn setBinTargetPath(mut buildConfig: &BuildConfig, compilationTypeInfo: &CompilationTypeInfo) {
+    pub fn getBinTargetPath(compilationTypeInfo: &CompilationTypeInfo) -> (String, String) {
         let mut binName = "script_rust".to_string();
         if cfg!(windows) {
             binName = binName + ".exe";
         }
         let debugTargetBin = FileUtil::getAbsPath(vec!["target", compilationTypeInfo.target(), "debug", binName.as_str()]);
         let releaseTargetBin = FileUtil::getAbsPath(vec!["target", compilationTypeInfo.target(), "release", binName.as_str()]);
-        buildConfig.set_releaseTargetPath(releaseTargetBin);
-        buildConfig.set_debugTargetPath(debugTargetBin);
+        (debugTargetBin, releaseTargetBin)
     }
 
 }
@@ -124,6 +129,14 @@ impl BuildConfig {
     pub fn set_buildTargetOriginal(&mut self, buildTargetOriginal: String) {
         self.buildTargetOriginal = buildTargetOriginal;
     }
+
+    pub fn set_addTargetPattern(&mut self, addTargetPattern: String) {
+        self.addTargetPattern = addTargetPattern;
+    }
+
+    pub fn set_addTargetOriginal(&mut self, addTargetOriginal: String) {
+        self.addTargetOriginal = addTargetOriginal;
+    }
 }
 
 impl BuildConfig {
@@ -173,6 +186,14 @@ impl BuildConfig {
 
     pub fn buildTargetOriginal(&self) -> &str {
         &self.buildTargetOriginal
+    }
+
+    pub fn addTargetPattern(&self) -> &str {
+        &self.addTargetPattern
+    }
+
+    pub fn addTargetOriginal(&self) -> &str {
+        &self.addTargetOriginal
     }
 
 }

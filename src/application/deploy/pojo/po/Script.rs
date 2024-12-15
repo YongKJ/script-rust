@@ -1,4 +1,6 @@
 use crate::application::deploy::pojo::dto::BuildConfig::BuildConfig;
+use crate::application::deploy::pojo::po::ArchInfo::ArchInfo;
+use crate::application::deploy::pojo::po::OsInfo::OsInfo;
 use crate::application::util::{DataUtil, FileUtil, GenUtil};
 use serde::{Deserialize, Serialize};
 use std::fmt::{Display, Formatter};
@@ -50,16 +52,15 @@ impl Script {
         lstScript
     }
 
-    pub fn setDistPath(mut script: &Script, buildConfig: &BuildConfig, os: &str, arch: &str) {
+    pub fn getDistPath(script: &Script, buildConfig: &BuildConfig, osInfo: &OsInfo, archInfo: &ArchInfo) -> (String, String) {
         let mut scriptPath = script.scriptPath.clone();
-        if !(os == "windows" && arch == "x86_64") {
-            scriptPath = format!("{}-{}-{}", scriptPath, os, arch);
+        if !(osInfo.name() == "windows" && archInfo.name() == "x86_64") {
+            scriptPath = format!("{}-{}-{}", scriptPath, osInfo.name(), archInfo.name());
         }
-        if os == "windows" {
+        if osInfo.name() == "windows" {
             scriptPath = scriptPath + ".exe";
         }
-        script.set_scriptPath(scriptPath);
-        script.set_targetPath(buildConfig.releaseTargetPath().to_string());
+        (scriptPath, buildConfig.releaseTargetPath().to_string())
     }
 
     fn getListByDir(mut appletDir: String) -> Vec<Script> {
