@@ -1,4 +1,5 @@
 use crate::application::deploy::pojo::dto::BuildConfig::BuildConfig;
+use crate::application::deploy::pojo::po::ArchInfo::ArchInfo;
 use crate::application::deploy::pojo::po::CompilationTypeInfo::CompilationTypeInfo;
 use crate::application::deploy::pojo::po::OsInfo::OsInfo;
 use crate::application::deploy::pojo::po::Script::Script;
@@ -65,7 +66,7 @@ impl BuildScriptService {
                 continue;
             }
 
-            let (debugTargetBin, releaseTargetBin) = BuildConfig::getBinTargetPath(compilationInfo);
+            let (debugTargetBin, releaseTargetBin) = BuildConfig::getBinTargetPath(osInfo, compilationInfo);
             self.buildConfig.set_debugTargetPath(debugTargetBin);
             self.buildConfig.set_releaseTargetPath(releaseTargetBin);
 
@@ -73,11 +74,11 @@ impl BuildScriptService {
             self.scripts[index].set_scriptPath(scriptPath);
             self.scripts[index].set_targetPath(targetPath);
 
-            self.build(&self.scripts[index], compilationInfo);
+            self.build(&self.scripts[index], osInfo, archInfo, compilationInfo);
         }
     }
 
-    fn build(&self, script: &Script, compilationTypeInfo: &CompilationTypeInfo) {
+    fn build(&self, script: &Script, osInfo: &OsInfo, archInfo: &ArchInfo, compilationTypeInfo: &CompilationTypeInfo) {
         self.changeCrossBuild(compilationTypeInfo, true);
         self.changeBuildConfig(script, true);
 
@@ -85,18 +86,19 @@ impl BuildScriptService {
         RemoteUtil::changeWorkFolder(FileUtil::appDir(false).as_str());
         RemoteUtil::execLocalCmd(bin, args);
 
-        self.updateScript(script);
+        self.updateScript(script, osInfo, archInfo);
         self.changeBuildConfig(script, false);
         self.changeCrossBuild(compilationTypeInfo, false);
     }
 
-    fn updateScript(&self, script: &Script) {
+    fn updateScript(&self, script: &Script, osInfo: &OsInfo, archInfo: &ArchInfo) {
         if !FileUtil::exist(script.scriptProject()) {
             FileUtil::mkdir(script.scriptProject());
         }
         if FileUtil::exist(script.scriptPath()) &&
             FileUtil::exist(script.targetPath()) &&
-            script.rustName() != "BuildScriptService.rs" {
+            !(script.rustName() == "BuildScriptService.rs" &&
+                osInfo.name() == "windows" && archInfo.name() == "x86_64") {
             FileUtil::delete(script.scriptPath());
         }
         if FileUtil::exist(script.scriptPath()) &&
@@ -104,7 +106,8 @@ impl BuildScriptService {
             FileUtil::delete(script.scriptConfig());
         }
         if FileUtil::exist(script.targetPath()) &&
-            script.rustName() != "BuildScriptService.rs" {
+            !(script.rustName() == "BuildScriptService.rs" &&
+                osInfo.name() == "windows" && archInfo.name() == "x86_64") {
             FileUtil::copy(script.targetPath(), script.scriptPath());
         }
         if FileUtil::exist(script.yamlConfig()) {
@@ -124,11 +127,14 @@ impl BuildScriptService {
     }
 
     fn changeCrossBuild(&self, compilationTypeInfo: &CompilationTypeInfo, isBefore: bool) {
+        let mut addTarget = compilationTypeInfo.target();
         let mut buildTarget = compilationTypeInfo.target();
         if !isBefore {
+            addTarget = self.buildConfig.addTargetOriginal();
             buildTarget = self.buildConfig.buildTargetOriginal();
         }
-        FileUtil::modFile(self.buildConfig.crossBuildPath(), self.buildConfig.buildTargetPattern(), true, buildTarget);
+        FileUtil::modContent(self.buildConfig.crossBuildPath(), self.buildConfig.addTargetPattern(), false, addTarget);
+        FileUtil::modContent(self.buildConfig.crossBuildPath(), self.buildConfig.buildTargetPattern(), false, buildTarget);
     }
 
     fn test(&self) {

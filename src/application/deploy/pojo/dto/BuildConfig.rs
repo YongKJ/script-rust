@@ -1,4 +1,5 @@
 use crate::application::deploy::pojo::po::CompilationTypeInfo::CompilationTypeInfo;
+use crate::application::deploy::pojo::po::OsInfo::OsInfo;
 use crate::application::deploy::pojo::po::Script::Script;
 use crate::application::util::{DataUtil, FileUtil};
 use serde::{Deserialize, Serialize};
@@ -69,9 +70,9 @@ impl BuildConfig {
         )
     }
 
-    pub fn getBinTargetPath(compilationTypeInfo: &CompilationTypeInfo) -> (String, String) {
+    pub fn getBinTargetPath(osInfo: &OsInfo, compilationTypeInfo: &CompilationTypeInfo) -> (String, String) {
         let mut binName = "script_rust".to_string();
-        if cfg!(windows) {
+        if osInfo.name() == "windows" {
             binName = binName + ".exe";
         }
         let debugTargetBin = FileUtil::getAbsPath(false, vec!["target", compilationTypeInfo.target(), "debug", binName.as_str()]);
