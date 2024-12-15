@@ -1,5 +1,6 @@
 use crate::application::deploy::pojo::dto::BuildConfig::BuildConfig;
 use crate::application::deploy::pojo::po::ArchInfo::ArchInfo;
+use crate::application::deploy::pojo::po::CompilationTypeInfo::CompilationTypeInfo;
 use crate::application::deploy::pojo::po::OsInfo::OsInfo;
 use crate::application::util::{DataUtil, FileUtil, GenUtil};
 use serde::{Deserialize, Serialize};
@@ -52,10 +53,10 @@ impl Script {
         lstScript
     }
 
-    pub fn getDistPath(script: &Script, buildConfig: &BuildConfig, osInfo: &OsInfo, archInfo: &ArchInfo) -> (String, String) {
+    pub fn getDistPath(script: &Script, buildConfig: &BuildConfig, osInfo: &OsInfo, archInfo: &ArchInfo, compilationTypeInfo: &CompilationTypeInfo) -> (String, String) {
         let mut scriptPath = script.scriptPath.clone();
-        if !(osInfo.name() == "windows" && archInfo.name() == "x86_64") {
-            scriptPath = format!("{}-{}-{}", scriptPath, osInfo.name(), archInfo.name());
+        if !(osInfo.name() == "windows" && archInfo.name() == "x86_64" && compilationTypeInfo.name() == "msvc") {
+            scriptPath = format!("{}-{}-{}-{}", scriptPath, osInfo.name(), archInfo.name(), compilationTypeInfo.name());
         }
         if osInfo.name() == "windows" {
             scriptPath = scriptPath + ".exe";

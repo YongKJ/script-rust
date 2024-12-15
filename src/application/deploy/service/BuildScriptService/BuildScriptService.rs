@@ -70,7 +70,7 @@ impl BuildScriptService {
             self.buildConfig.set_debugTargetPath(debugTargetBin);
             self.buildConfig.set_releaseTargetPath(releaseTargetBin);
 
-            let (scriptPath, targetPath) = Script::getDistPath(&self.scripts[index], &self.buildConfig, osInfo, archInfo);
+            let (scriptPath, targetPath) = Script::getDistPath(&self.scripts[index], &self.buildConfig, osInfo, archInfo, compilationInfo);
             self.scripts[index].set_scriptPath(scriptPath);
             self.scripts[index].set_targetPath(targetPath);
 
