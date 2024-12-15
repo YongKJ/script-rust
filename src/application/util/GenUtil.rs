@@ -63,7 +63,8 @@ pub fn getConfigPath() -> String {
 
 pub fn getYaml() -> String {
     let execYaml = getExecYaml();
-    if FileUtil::exist(execYaml.as_str()) {
+    let yamlPath = FileUtil::getAbsPath(true, vec![execYaml.as_str()]);
+    if FileUtil::exist(yamlPath.as_str()) {
         return execYaml;
     }
     getYamlByContent()
