@@ -56,7 +56,7 @@ impl Script {
     pub fn getDistPath(script: &Script, buildConfig: &BuildConfig, osInfo: &OsInfo, archInfo: &ArchInfo, compilationTypeInfo: &CompilationTypeInfo) -> (String, String) {
         let mut scriptPath = script.scriptPath.clone();
         if !(osInfo.name() == "windows" && archInfo.name() == "x86_64" && compilationTypeInfo.name() == "msvc") {
-            scriptPath = format!("{}-{}-{}-{}", scriptPath, osInfo.name(), archInfo.name(), compilationTypeInfo.name());
+            scriptPath = format!("{}-{}-{}-{}", scriptPath, archInfo.name(), osInfo.name(), compilationTypeInfo.name());
         }
         if osInfo.name() == "windows" {
             scriptPath = scriptPath + ".exe";
