@@ -4,7 +4,7 @@ use regex::{Captures, Regex};
 use serde_yaml::Value;
 use std::collections::HashMap;
 use std::io::Write;
-use std::io;
+use std::{io, path};
 
 pub fn readParams() -> Vec<String> {
     let flushResult = io::stdout().flush();
@@ -54,22 +54,30 @@ pub fn getConfigPath() -> String {
     if FileUtil::exist(path.clone().as_str()) {
         return path;
     }
-    path = FileUtil::getAbsPath(vec![config.as_str()]);
+    path = FileUtil::getAbsPath(false, vec![config.as_str()]);
     if FileUtil::exist(path.clone().as_str()) {
         return path;
     }
-    FileUtil::getAbsPath(vec!["src", "assets", config.as_str()])
+    FileUtil::getAbsPath(false, vec!["src", "assets", config.as_str()])
 }
 
 pub fn getYaml() -> String {
-    let execDir = FileUtil::dir(FileUtil::execPath().as_str());
-    let lstFile = FileUtil::list(execDir.as_str());
-    for file in lstFile {
-        if file.ends_with(".yaml") {
-            return file;
-        }
+    let execYaml = getExecYaml();
+    if FileUtil::exist(execYaml.as_str()) {
+        return execYaml;
     }
     getYamlByContent()
+}
+
+pub fn getExecYaml() -> String {
+    let execPath = FileUtil::execPath();
+    let mut index = execPath.rfind(path::MAIN_SEPARATOR).unwrap();
+    let execName = execPath.get(index + 1..execPath.len()).unwrap();
+    if !execName.contains(".") {
+        return toLine(execName) + ".yaml";
+    }
+    index = execName.find(".").unwrap();
+    toLine(execName.get(0..index).unwrap()) + ".yaml"
 }
 
 pub fn getYamlByContent() -> String {
@@ -78,7 +86,7 @@ pub fn getYamlByContent() -> String {
         appName = "ApplicationTest.rs";
     }
 
-    let appPath = FileUtil::getAbsPath(vec!["src", "application", appName]);
+    let appPath = FileUtil::getAbsPath(false, vec!["src", "application", appName]);
     let regex = Regex::new("\\s+(\\S+)::run\\(\\)").unwrap();
     let lines = FileUtil::readByLine(appPath.as_str());
     for line in lines {

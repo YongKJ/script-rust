@@ -11,21 +11,24 @@ use std::time::SystemTime;
 use std::{env, fs, path};
 
 lazy_static! {
-    static ref APP_DIR: String = getAppDir();
+    static ref APP_DIR: String = getAppDir(true);
+    static ref PROJECt_DIR: String = getAppDir(false);
 }
 
-fn getAppDir() -> String {
-    let execPath = execPath();
-    let sepStr = format!("{}{}{}", "rust", path::MAIN_SEPARATOR, "target");
-    if execPath.contains(sepStr.as_str()) {
-        return dir(dir(dir(execPath.as_str()).as_str()).as_str());
+fn getAppDir(isProd: bool) -> String {
+    let appDir = dir(execPath().as_str());
+    if isProd {
+        return appDir;
     }
 
-    dir(execPath.as_str())
+    dir(dir(appDir.as_str()).as_str())
 }
 
-pub fn appDir() -> String {
-    APP_DIR.to_string()
+pub fn appDir(isProd: bool) -> String {
+    if isProd {
+        return APP_DIR.to_string()
+    }
+    PROJECt_DIR.to_string()
 }
 
 pub fn execPath() -> String {
@@ -56,8 +59,8 @@ pub fn dir(fileName: &str) -> String {
     PathBuf::from(fileName).parent().unwrap().to_str().unwrap().to_string()
 }
 
-pub fn getAbsPath(names: Vec<&str>) -> String {
-    let mut dir = PathBuf::from(appDir());
+pub fn getAbsPath(isProd: bool, names: Vec<&str>) -> String {
+    let mut dir = PathBuf::from(appDir(isProd));
     for name in names {
         dir.push(name);
     }

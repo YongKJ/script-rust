@@ -46,7 +46,7 @@ impl Script {
     }
 
     pub fn gets() -> Vec<Script> {
-        let path = FileUtil::getAbsPath(vec!["src", "application", "deploy", "service"]);
+        let path = FileUtil::getAbsPath(false, vec!["src", "application", "deploy", "service"]);
         let mut lstScript = Self::getListByDir("".to_string());
         lstScript.extend(Self::getListByDir(path));
         lstScript
@@ -65,11 +65,11 @@ impl Script {
 
     fn getListByDir(mut appletDir: String) -> Vec<Script> {
         if appletDir.len() == 0 {
-            appletDir = FileUtil::getAbsPath(vec!["src", "application", "applet"]);
+            appletDir = FileUtil::getAbsPath(false, vec!["src", "application", "applet"]);
         }
-        let assetsDir = FileUtil::getAbsPath(vec!["src", "assets"]);
-        let scriptDir = FileUtil::getAbsPath(vec!["script"]);
-        let targetDir = FileUtil::getAbsPath(vec!["target"]);
+        let assetsDir = FileUtil::getAbsPath(false, vec!["src", "assets"]);
+        let scriptDir = FileUtil::getAbsPath(false, vec!["script"]);
+        let targetDir = FileUtil::getAbsPath(false, vec!["target"]);
         let lstFile = FileUtil::list(appletDir.as_str());
 
         let mut lstScript: Vec<Script> = Vec::new();

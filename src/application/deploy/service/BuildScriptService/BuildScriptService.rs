@@ -82,7 +82,7 @@ impl BuildScriptService {
         self.changeBuildConfig(script, true);
 
         let (bin, args) = PromptUtil::packageRustScript(self.buildConfig.crossBuildPath());
-        RemoteUtil::changeWorkFolder(FileUtil::appDir().as_str());
+        RemoteUtil::changeWorkFolder(FileUtil::appDir(false).as_str());
         RemoteUtil::execLocalCmd(bin, args);
 
         self.updateScript(script);

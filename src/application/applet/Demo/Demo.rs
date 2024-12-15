@@ -173,8 +173,8 @@ impl Demo {
     }
 
     fn test21(&self) {
-        let appDir = FileUtil::appDir();
         let execPath = FileUtil::execPath();
+        let appDir = FileUtil::appDir(false);
         LogUtil::loggerLine(Log::of("Demo", "test20", "appDir", appDir));
         LogUtil::loggerLine(Log::of("Demo", "test20", "execPath", execPath));
     }
@@ -216,7 +216,7 @@ impl Demo {
 
     fn test26(&self) {
         LogUtil::loggerLine(Log::of("Demo", "test26", "&self.msg", &self.msg));
-        LogUtil::loggerLine(Log::of("Demo", "test26", "FileUtil::appDir()", FileUtil::appDir()));
+        LogUtil::loggerLine(Log::of("Demo", "test26", "FileUtil::appDir()", FileUtil::appDir(false)));
     }
 
     fn test27(&self) {

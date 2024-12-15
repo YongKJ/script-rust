@@ -52,12 +52,12 @@ impl BuildConfig {
     }
 
     pub fn get() -> BuildConfig {
-        let appTestPath = FileUtil::getAbsPath(vec!["src", "application", "ApplicationTest.rs"]);
-        let appPath = FileUtil::getAbsPath(vec!["src", "application", "Application.rs"]);
-        let mut crossBuildPath = FileUtil::getAbsPath(vec!["cross_build.sh"]);
-        let targetPath = FileUtil::getAbsPath(vec!["target"]);
+        let appTestPath = FileUtil::getAbsPath(false, vec!["src", "application", "ApplicationTest.rs"]);
+        let appPath = FileUtil::getAbsPath(false, vec!["src", "application", "Application.rs"]);
+        let mut crossBuildPath = FileUtil::getAbsPath(false, vec!["cross_build.sh"]);
+        let targetPath = FileUtil::getAbsPath(false, vec!["target"]);
         if cfg!(windows) {
-            crossBuildPath = FileUtil::getAbsPath(vec!["cross_build.cmd"])
+            crossBuildPath = FileUtil::getAbsPath(false, vec!["cross_build.cmd"])
         }
         Self::of(
             appPath.as_str(), appTestPath.as_str(), crossBuildPath.as_str(), targetPath.as_str(),
@@ -74,8 +74,8 @@ impl BuildConfig {
         if cfg!(windows) {
             binName = binName + ".exe";
         }
-        let debugTargetBin = FileUtil::getAbsPath(vec!["target", compilationTypeInfo.target(), "debug", binName.as_str()]);
-        let releaseTargetBin = FileUtil::getAbsPath(vec!["target", compilationTypeInfo.target(), "release", binName.as_str()]);
+        let debugTargetBin = FileUtil::getAbsPath(false, vec!["target", compilationTypeInfo.target(), "debug", binName.as_str()]);
+        let releaseTargetBin = FileUtil::getAbsPath(false, vec!["target", compilationTypeInfo.target(), "release", binName.as_str()]);
         (debugTargetBin, releaseTargetBin)
     }
 
