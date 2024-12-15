@@ -86,19 +86,19 @@ impl BuildScriptService {
         RemoteUtil::changeWorkFolder(FileUtil::appDir(false).as_str());
         RemoteUtil::execLocalCmd(bin, args);
 
-        self.updateScript(script, osInfo, archInfo);
         self.changeBuildConfig(script, false);
         self.changeCrossBuild(compilationTypeInfo, false);
+        self.updateScript(script, osInfo, archInfo, compilationTypeInfo);
     }
 
-    fn updateScript(&self, script: &Script, osInfo: &OsInfo, archInfo: &ArchInfo) {
+    fn updateScript(&self, script: &Script, osInfo: &OsInfo, archInfo: &ArchInfo, compilationTypeInfo: &CompilationTypeInfo) {
         if !FileUtil::exist(script.scriptProject()) {
             FileUtil::mkdir(script.scriptProject());
         }
         if FileUtil::exist(script.scriptPath()) &&
             FileUtil::exist(script.targetPath()) &&
-            !(script.rustName() == "BuildScriptService.rs" &&
-                osInfo.name() == "windows" && archInfo.name() == "x86_64") {
+            !(script.rustName() == "BuildScriptService.rs" && osInfo.name() == "windows" &&
+                archInfo.name() == "x86_64" && compilationTypeInfo.name() == "msvc") {
             FileUtil::delete(script.scriptPath());
         }
         if FileUtil::exist(script.scriptPath()) &&
@@ -106,8 +106,8 @@ impl BuildScriptService {
             FileUtil::delete(script.scriptConfig());
         }
         if FileUtil::exist(script.targetPath()) &&
-            !(script.rustName() == "BuildScriptService.rs" &&
-                osInfo.name() == "windows" && archInfo.name() == "x86_64") {
+            !(script.rustName() == "BuildScriptService.rs" && osInfo.name() == "windows" &&
+                archInfo.name() == "x86_64" && compilationTypeInfo.name() == "msvc") {
             FileUtil::copy(script.targetPath(), script.scriptPath());
         }
         if FileUtil::exist(script.yamlConfig()) {
