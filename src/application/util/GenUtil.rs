@@ -3,9 +3,14 @@ use crate::application::util::{FileUtil, LogUtil};
 use regex::{Captures, Regex};
 use serde_yaml::Value;
 use std::collections::HashMap;
+use std::io::Write;
 use std::io;
 
 pub fn readParams() -> Vec<String> {
+    let flushResult = io::stdout().flush();
+    if flushResult.is_err() {
+        LogUtil::loggerLine(Log::of("GenUtil", "readParams", "io::stdout().flush()", flushResult.unwrap_err()));
+    }
     let mut input = String::new();
     let result = io::stdin().read_line(&mut input);
     if result.is_err() {
