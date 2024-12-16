@@ -78,7 +78,7 @@ impl BuildConfig {
             "[\\s\\S]+=(\\S+)\\s--release", "x86_64-pc-windows-msvc",
             "[\\s\\S]+add\\s(\\S+)", "x86_64-pc-windows-msvc",
             "[\\s\\S]+\\.(\\S+)\\]", "x86_64-pc-windows-gnu",
-            "[\\s\\S]+=\\s(\\S+)", "[\"-C\", \"linker=x86_64-w64-mingw32-gcc.exe\"]"
+            "[\\s\\S]+=\\s([\\s\\S]+)", "[\"-C\", \"linker=x86_64-w64-mingw32-gcc.exe\"]"
         )
     }
 

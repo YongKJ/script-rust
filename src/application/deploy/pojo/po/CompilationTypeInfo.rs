@@ -8,7 +8,7 @@ pub struct CompilationTypeInfo {
     name: String,
     #[serde(rename = "target")]
     target: String,
-    #[serde(rename = "flags")]
+    #[serde(default, rename = "flags")]
     flags: Vec<String>,
 }
 
