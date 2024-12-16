@@ -135,6 +135,19 @@ impl BuildScriptService {
         }
         FileUtil::modContent(self.buildConfig.crossBuildPath(), self.buildConfig.addTargetPattern(), false, addTarget);
         FileUtil::modContent(self.buildConfig.crossBuildPath(), self.buildConfig.buildTargetPattern(), false, buildTarget);
+
+        if compilationTypeInfo.flags().is_empty() {
+            return;
+        }
+
+        let mut configTarget = compilationTypeInfo.target();
+        let mut configFlags = DataUtil::objToJson(compilationTypeInfo.flags());
+        if !isBefore {
+            configTarget = self.buildConfig.configTargetOriginal();
+            configFlags = self.buildConfig.configFlagsOriginal().to_string();
+        }
+        FileUtil::modContent(self.buildConfig.cargoConfigPath(), self.buildConfig.configTargetPattern(), false, configTarget);
+        FileUtil::modContent(self.buildConfig.cargoConfigPath(), self.buildConfig.configFlagsPattern(), false, configFlags.as_str());
     }
 
     fn test(&self) {

@@ -8,6 +8,8 @@ pub struct CompilationTypeInfo {
     name: String,
     #[serde(rename = "target")]
     target: String,
+    #[serde(rename = "flags")]
+    flags: Vec<String>,
 }
 
 impl Display for CompilationTypeInfo {
@@ -17,12 +19,12 @@ impl Display for CompilationTypeInfo {
 }
 
 impl CompilationTypeInfo {
-    fn new(name: String, target: String) -> Self {
-        Self { name, target }
+    fn new(name: String, target: String, flags: Vec<String>) -> Self {
+        Self { name, target, flags }
     }
 
-    pub fn of(name: &str, target: &str) -> Self {
-        Self::new(name.to_string(), target.to_string())
+    pub fn of(name: &str, target: &str, flags: Vec<String>) -> Self {
+        Self::new(name.to_string(), target.to_string(), flags)
     }
 }
 
@@ -34,6 +36,10 @@ impl CompilationTypeInfo {
     pub fn set_target(&mut self, target: String) {
         self.target = target;
     }
+
+    pub fn set_flags(&mut self, flags: Vec<String>) {
+        self.flags = flags;
+    }
 }
 
 impl CompilationTypeInfo {
@@ -43,5 +49,9 @@ impl CompilationTypeInfo {
 
     pub fn target(&self) -> &str {
         &self.target
+    }
+
+    pub fn flags(&self) -> &Vec<String> {
+        &self.flags
     }
 }
