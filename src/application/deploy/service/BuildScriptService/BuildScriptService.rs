@@ -36,7 +36,7 @@ impl BuildScriptService {
         for (i, osInfo) in self.osInfos.iter().enumerate() {
             println!("{}. {}", i + 1, osInfo.name());
         }
-        print!("Please enter one or more numbers corresponding to the os: ");
+        print!("Please enter one number corresponding to the os: ");
         let osNums = GenUtil::readParams();
         let osNum = GenUtil::strToUsize(osNums.get(0).expect("0"));
         let osInfo = self.osInfos.get(osNum - 1).unwrap();
@@ -45,7 +45,7 @@ impl BuildScriptService {
         for (i, arch) in osInfo.archs().iter().enumerate() {
             println!("{}. {}", i + 1, arch.name());
         }
-        print!("Please enter one or more numbers corresponding to the arch: ");
+        print!("Please enter one number corresponding to the arch: ");
         let archNums = GenUtil::readParams();
         let archNum = GenUtil::strToUsize(archNums.get(0).expect("0"));
         let archInfo = osInfo.archs().get(archNum - 1).unwrap();
@@ -54,7 +54,7 @@ impl BuildScriptService {
         for (i, compilationType) in archInfo.compilationTypes().iter().enumerate() {
             println!("{}. {}", i + 1, compilationType.name());
         }
-        print!("Please enter one or more numbers corresponding to the compilation type: ");
+        print!("Please enter one number corresponding to the compilation type: ");
         let compilationNums = GenUtil::readParams();
         let compilationNum = GenUtil::strToUsize(compilationNums.get(0).expect("0"));
         let compilationInfo = archInfo.compilationTypes().get(compilationNum - 1).unwrap();
