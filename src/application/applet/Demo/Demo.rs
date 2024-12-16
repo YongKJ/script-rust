@@ -235,12 +235,23 @@ impl Demo {
 
         FileUtil::modContent(path, regStr, false, value);
     }
+
+    fn test29(&self) {
+        let path = "D:\\Document\\MyCodes\\Github\\script_rust\\.cargo\\config.toml";
+        // let value = "i686-pc-windows-gnu";
+        // let regStr = "[\\s\\S]+\\.(\\S+)\\]";
+        let value = "[\"-C\", \"linker=i686-w64-mingw32-gcc.exe\"]";
+        let regStr = "[\\s\\S]+=\\s([\\s\\S]+)";
+
+        FileUtil::modContent(path, regStr, false, value);
+    }
 }
 
 pub fn run() {
     let demo = Demo::new();
 
-    demo.test28();
+    demo.test29();
+    // demo.test28();
     // demo.test27();
     // demo.test26();
     // demo.test25();
