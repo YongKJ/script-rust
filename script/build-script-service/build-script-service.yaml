@@ -9,6 +9,9 @@ windows_os_info:
             target: "x86_64-pc-windows-msvc"
           - name: "gnu"
             target: "x86_64-pc-windows-gnu"
+            flags:
+              - "-C"
+              - "linker=x86_64-w64-mingw32-gcc.exe"
 
       - name: "i686"
         compilation_type:
@@ -16,6 +19,9 @@ windows_os_info:
             target: "i686-pc-windows-msvc"
           - name: "gnu"
             target: "i686-pc-windows-gnu"
+            flags:
+              - "-C"
+              - "linker=i686-w64-mingw32-gcc.exe"
 
   - name: "linux"
     arch:
@@ -23,26 +29,52 @@ windows_os_info:
         compilation_type:
           - name: "gnu"
             target: "x86_64-unknown-linux-gnu"
+            flags:
+              - "-C"
+              - "linker=x86_64-linux-gnu-gcc.exe"
+              - "-C"
+              - "target-feature=+crt-static"
           - name: "musl"
             target: "x86_64-unknown-linux-musl"
+            flags:
+              - "-C"
+              - "linker=x86_64-linux-musl-gcc.exe"
 
       - name: "aarch64"
         compilation_type:
           - name: "gnu"
             target: "aarch64-unknown-linux-gnu"
+            flags:
+              - "-C"
+              - "linker=aarch64-none-linux-gnu-gcc.exe"
           - name: "musl"
             target: "aarch64-unknown-linux-musl"
+            flags:
+              - "-C"
+              - "linker=aarch64-linux-musl-gcc.exe"
           - name: "android"
             target: "aarch64-linux-android"
+            flags:
+              - "-C"
+              - "linker=aarch64-linux-android35-clang.cmd"
 
       - name: "arm"
         compilation_type:
           - name: "gnueabihf"
             target: "arm-unknown-linux-gnueabihf"
+            flags:
+              - "-C"
+              - "linker=arm-none-linux-gnueabihf-gcc.exe"
           - name: "androideabi"
             target: "arm-linux-androideabi"
+            flags:
+              - "-C"
+              - "linker=armv7a-linux-androideabi35-clang.cmd"
 
       - name: "armv7"
         compilation_type:
           - name: "androideabi"
             target: "armv7-linux-androideabi"
+            flags:
+              - "-C"
+              - "linker=armv7a-linux-androideabi35-clang.cmd"
