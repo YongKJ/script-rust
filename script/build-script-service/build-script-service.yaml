@@ -93,12 +93,12 @@ linux_os_info:
             target: "x86_64-pc-windows-gnu"
             flags:
               - "-C"
-              - "linker="
+              - "linker=/home/coder/project/MyCodes/Github/gnu-cross-toolchains/gnu-latest/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-gcc"
           - name: "musl"
             target: "x86_64-pc-windows-gnu"
             flags:
               - "-C"
-              - "linker="
+              - "linker=/home/coder/project/MyCodes/Github/musl-cross-toolchains/musl-latest/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-gcc"
 
       - name: "i686"
         compilation_type:
@@ -106,12 +106,12 @@ linux_os_info:
             target: "i686-pc-windows-gnu"
             flags:
               - "-C"
-              - "linker="
+              - "linker=/home/coder/project/MyCodes/Github/gnu-cross-toolchains/gnu-latest/i686-w64-mingw32/bin/i686-w64-mingw32-gcc"
           - name: "musl"
             target: "i686-pc-windows-gnu"
             flags:
               - "-C"
-              - "linker="
+              - "linker=/home/coder/project/MyCodes/Github/musl-cross-toolchains/musl-latest/i686-w64-mingw32/bin/i686-w64-mingw32-gcc"
 
   - name: "linux"
     arch:
@@ -121,26 +121,24 @@ linux_os_info:
             target: "x86_64-unknown-linux-gnu"
             flags:
               - "-C"
-              - "linker="
+              - "linker=/home/coder/project/MyCodes/Github/gnu-cross-toolchains/gnu-latest/x86_64-unknown-linux-gnu/bin/x86_64-unknown-linux-gnu-gcc"
           - name: "gnu-static"
             target: "x86_64-unknown-linux-gnu"
             flags:
               - "-C"
-              - "linker="
+              - "linker=/home/coder/project/MyCodes/Github/gnu-cross-toolchains/gnu-latest/x86_64-unknown-linux-gnu/bin/x86_64-unknown-linux-gnu-gcc"
               - "-C"
               - "target-feature=+crt-static"
           - name: "gnu-glibc-2.17"
             target: "x86_64-unknown-linux-gnu"
             flags:
               - "-C"
-              - "linker="
-              - "-C"
-              - "target-feature=+crt-static"
+              - "linker=/home/coder/project/MyCodes/Github/gnu-cross-toolchains/gnu-2.17/x86_64-unknown-linux-gnu/bin/x86_64-unknown-linux-gnu-gcc"
           - name: "musl"
             target: "x86_64-unknown-linux-musl"
             flags:
               - "-C"
-              - "linker="
+              - "linker=/home/coder/project/MyCodes/Github/musl-cross-toolchains/musl-latest/x86_64-unknown-linux-musl/bin/x86_64-unknown-linux-musl-gcc"
 
       - name: "i686"
         compilation_type:
@@ -148,26 +146,24 @@ linux_os_info:
             target: "i686-unknown-linux-gnu"
             flags:
               - "-C"
-              - "linker="
+              - "linker=/home/coder/project/MyCodes/Github/gnu-cross-toolchains/gnu-latest/i686-unknown-linux-gnu/bin/i686-unknown-linux-gnu-gcc"
           - name: "gnu-static"
             target: "i686-unknown-linux-gnu"
             flags:
               - "-C"
-              - "linker="
+              - "linker=/home/coder/project/MyCodes/Github/gnu-cross-toolchains/gnu-latest/i686-unknown-linux-gnu/bin/i686-unknown-linux-gnu-gcc"
               - "-C"
               - "target-feature=+crt-static"
           - name: "gnu-glibc-2.17"
             target: "i686-unknown-linux-gnu"
             flags:
               - "-C"
-              - "linker="
-              - "-C"
-              - "target-feature=+crt-static"
+              - "linker=/home/coder/project/MyCodes/Github/gnu-cross-toolchains/gnu-2.17/i686-unknown-linux-gnu/bin/i686-unknown-linux-gnu-gcc"
           - name: "musl"
             target: "i686-unknown-linux-musl"
             flags:
               - "-C"
-              - "linker="
+              - "linker=/home/coder/project/MyCodes/Github/musl-cross-toolchains/musl-latest/i686-unknown-linux-musl/bin/i686-unknown-linux-musl-gcc"
 
       - name: "aarch64"
         compilation_type:
@@ -175,12 +171,12 @@ linux_os_info:
             target: "aarch64-unknown-linux-gnu"
             flags:
               - "-C"
-              - "linker="
+              - "linker=/home/coder/project/MyCodes/Github/gnu-cross-toolchains/gnu-latest/aarch64-unknown-linux-gnu/bin/aarch64-unknown-linux-gnu-gcc"
           - name: "musl"
             target: "aarch64-unknown-linux-musl"
             flags:
               - "-C"
-              - "linker="
+              - "linker=/home/coder/project/MyCodes/Github/musl-cross-toolchains/musl-latest/aarch64-unknown-linux-musl/bin/aarch64-unknown-linux-musl-gcc"
 
       - name: "arm"
         compilation_type:
@@ -188,22 +184,22 @@ linux_os_info:
             target: "arm-unknown-linux-gnueabi"
             flags:
               - "-C"
-              - "linker="
+              - "linker=/home/coder/project/MyCodes/Github/gnu-cross-toolchains/gnu-latest/arm-unknown-linux-gnueabi/bin/arm-unknown-linux-gnueabi-gcc"
           - name: "gnueabihf"
             target: "arm-unknown-linux-gnueabihf"
             flags:
               - "-C"
-              - "linker="
+              - "linker=/home/coder/project/MyCodes/Github/gnu-cross-toolchains/gnu-latest/arm-unknown-linux-gnueabihf/bin/arm-unknown-linux-gnueabihf-gcc"
           - name: "musleabi"
             target: "arm-unknown-linux-musleabi"
             flags:
               - "-C"
-              - "linker="
+              - "linker=/home/coder/project/MyCodes/Github/musl-cross-toolchains/musl-latest/arm-unknown-linux-musleabi/bin/arm-unknown-linux-musleabi-gcc"
           - name: "musleabihf"
             target: "arm-unknown-linux-musleabihf"
             flags:
               - "-C"
-              - "linker="
+              - "linker=/home/coder/project/MyCodes/Github/musl-cross-toolchains/musl-latest/arm-unknown-linux-musleabihf/bin/arm-unknown-linux-musleabihf-gcc"
 
       - name: "armv7"
         compilation_type:
@@ -211,19 +207,19 @@ linux_os_info:
             target: "armv7-unknown-linux-gnueabi"
             flags:
               - "-C"
-              - "linker="
+              - "linker=/home/coder/project/MyCodes/Github/gnu-cross-toolchains/gnu-latest/arm-unknown-linux-gnueabi/bin/arm-unknown-linux-gnueabi-gcc"
           - name: "gnueabihf"
             target: "armv7-unknown-linux-gnueabihf"
             flags:
               - "-C"
-              - "linker="
+              - "linker=/home/coder/project/MyCodes/Github/gnu-cross-toolchains/gnu-latest/arm-unknown-linux-gnueabihf/bin/arm-unknown-linux-gnueabihf-gcc"
           - name: "musleabi"
             target: "armv7-unknown-linux-musleabi"
             flags:
               - "-C"
-              - "linker="
+              - "linker=/home/coder/project/MyCodes/Github/musl-cross-toolchains/musl-latest/armv7-unknown-linux-musleabi/bin/armv7-unknown-linux-musleabi-gcc"
           - name: "musleabihf"
             target: "armv7-unknown-linux-musleabihf"
             flags:
               - "-C"
-              - "linker="
+              - "linker=/home/coder/project/MyCodes/Github/musl-cross-toolchains/musl-latest/armv7-unknown-linux-musleabihf/bin/armv7-unknown-linux-musleabihf-gcc"
