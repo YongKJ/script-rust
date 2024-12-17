@@ -32,6 +32,11 @@ windows_os_info:
             flags:
               - "-C"
               - "linker=x86_64-linux-gnu-gcc.exe"
+          - name: "gnu-static"
+            target: "x86_64-unknown-linux-gnu"
+            flags:
+              - "-C"
+              - "linker=x86_64-linux-gnu-gcc.exe"
               - "-C"
               - "target-feature=+crt-static"
           - name: "musl"
@@ -78,3 +83,147 @@ windows_os_info:
             flags:
               - "-C"
               - "linker=armv7a-linux-androideabi35-clang.cmd"
+
+linux_os_info:
+  - name: "windows"
+    arch:
+      - name: "x86_64"
+        compilation_type:
+          - name: "gnu"
+            target: "x86_64-pc-windows-gnu"
+            flags:
+              - "-C"
+              - "linker="
+          - name: "musl"
+            target: "x86_64-pc-windows-gnu"
+            flags:
+              - "-C"
+              - "linker="
+
+      - name: "i686"
+        compilation_type:
+          - name: "gnu"
+            target: "i686-pc-windows-gnu"
+            flags:
+              - "-C"
+              - "linker="
+          - name: "musl"
+            target: "i686-pc-windows-gnu"
+            flags:
+              - "-C"
+              - "linker="
+
+  - name: "linux"
+    arch:
+      - name: "x86_64"
+        compilation_type:
+          - name: "gnu"
+            target: "x86_64-unknown-linux-gnu"
+            flags:
+              - "-C"
+              - "linker="
+          - name: "gnu-static"
+            target: "x86_64-unknown-linux-gnu"
+            flags:
+              - "-C"
+              - "linker="
+              - "-C"
+              - "target-feature=+crt-static"
+          - name: "gnu-glibc-2.17"
+            target: "x86_64-unknown-linux-gnu"
+            flags:
+              - "-C"
+              - "linker="
+              - "-C"
+              - "target-feature=+crt-static"
+          - name: "musl"
+            target: "x86_64-unknown-linux-musl"
+            flags:
+              - "-C"
+              - "linker="
+
+      - name: "i686"
+        compilation_type:
+          - name: "gnu"
+            target: "i686-unknown-linux-gnu"
+            flags:
+              - "-C"
+              - "linker="
+          - name: "gnu-static"
+            target: "i686-unknown-linux-gnu"
+            flags:
+              - "-C"
+              - "linker="
+              - "-C"
+              - "target-feature=+crt-static"
+          - name: "gnu-glibc-2.17"
+            target: "i686-unknown-linux-gnu"
+            flags:
+              - "-C"
+              - "linker="
+              - "-C"
+              - "target-feature=+crt-static"
+          - name: "musl"
+            target: "i686-unknown-linux-musl"
+            flags:
+              - "-C"
+              - "linker="
+
+      - name: "aarch64"
+        compilation_type:
+          - name: "gnu"
+            target: "aarch64-unknown-linux-gnu"
+            flags:
+              - "-C"
+              - "linker="
+          - name: "musl"
+            target: "aarch64-unknown-linux-musl"
+            flags:
+              - "-C"
+              - "linker="
+
+      - name: "arm"
+        compilation_type:
+          - name: "gnueabi"
+            target: "arm-unknown-linux-gnueabi"
+            flags:
+              - "-C"
+              - "linker="
+          - name: "gnueabihf"
+            target: "arm-unknown-linux-gnueabihf"
+            flags:
+              - "-C"
+              - "linker="
+          - name: "musleabi"
+            target: "arm-unknown-linux-musleabi"
+            flags:
+              - "-C"
+              - "linker="
+          - name: "musleabihf"
+            target: "arm-unknown-linux-musleabihf"
+            flags:
+              - "-C"
+              - "linker="
+
+      - name: "armv7"
+        compilation_type:
+          - name: "gnueabi"
+            target: "armv7-unknown-linux-gnueabi"
+            flags:
+              - "-C"
+              - "linker="
+          - name: "gnueabihf"
+            target: "armv7-unknown-linux-gnueabihf"
+            flags:
+              - "-C"
+              - "linker="
+          - name: "musleabi"
+            target: "armv7-unknown-linux-musleabi"
+            flags:
+              - "-C"
+              - "linker="
+          - name: "musleabihf"
+            target: "armv7-unknown-linux-musleabihf"
+            flags:
+              - "-C"
+              - "linker="
