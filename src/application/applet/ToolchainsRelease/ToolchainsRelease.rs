@@ -52,7 +52,7 @@ impl ToolchainsRelease {
         RemoteUtil::changeWorkFolder(desDir);
         RemoteUtil::execLocalCmd(bin, args);
 
-        let pointIndex = toolchainPath.find(".").unwrap();
+        let pointIndex = toolchainPath.find(".tar").unwrap();
         let sepIndex = toolchainPath.rfind(path::MAIN_SEPARATOR).unwrap();
         format!("{}{}{}", desDir, path::MAIN_SEPARATOR, toolchainPath.get(sepIndex + 1..pointIndex).unwrap())
     }

@@ -24,8 +24,7 @@ pub fn releaseToolchain<'a>(toolchainPath: &'a str, desDir: &'a str) -> (&'a str
         ]);
     }
 
-    ("bash", vec![
-        "tar",
+    ("tar", vec![
         "xvf",
         toolchainPath,
         "-C",
