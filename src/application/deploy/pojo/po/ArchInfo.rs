@@ -3,7 +3,7 @@ use crate::application::util::DataUtil;
 use serde::{Deserialize, Serialize};
 use std::fmt::{Display, Formatter};
 
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct ArchInfo {
     #[serde(rename = "name")]
     name: String,

@@ -13,7 +13,7 @@ struct BuildScriptService {
 }
 
 impl BuildScriptService {
-    pub fn new() -> Self {
+    fn new() -> Self {
         Self {
             osInfos: OsInfo::gets(),
             scripts: Script::gets(),

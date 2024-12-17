@@ -4,18 +4,12 @@ use crate::application::util::{DataUtil, GenUtil, LogUtil};
 use serde::{Deserialize, Serialize};
 use std::fmt::{Debug, Display, Formatter};
 
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct OsInfo {
     #[serde(rename = "name")]
     name: String,
     #[serde(rename = "arch")]
     archs: Vec<ArchInfo>,
-}
-
-impl Debug for OsInfo {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        writeln!(f, "{} {} {}\n", "Debug: ", "OsInfo", DataUtil::objToJson(&self))
-    }
 }
 
 impl Display for OsInfo {
