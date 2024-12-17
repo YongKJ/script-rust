@@ -28,7 +28,9 @@ impl ToolchainInfo {
 
     pub fn gets() -> Vec<ToolchainInfo> {
         let mapData = GenUtil::getConfig();
-        let toolchainInfoData = mapData.get("toolchain_info");
+        let toolchainInfo = GenUtil::getValue("toolchain_info");
+        let toolchainInfoKey = format!("{}_{}", toolchainInfo, "toolchain_info");
+        let toolchainInfoData = mapData.get(toolchainInfoKey.as_str());
         if toolchainInfoData.is_none() {
             return Vec::new();
         }
