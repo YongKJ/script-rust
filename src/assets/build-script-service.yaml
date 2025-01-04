@@ -233,3 +233,11 @@ linux_os_info:
             flags:
               - "-C"
               - "linker=/home/coder/project/MyCodes/Github/gnu-cross-toolchains/gnu-latest/gnu-osxcross/bin/x86_64-apple-darwin20.2-cc"
+
+      - name: "aarch64"
+        compilation_type:
+          - name: "gnu"
+            target: "aarch64-apple-darwin"
+            flags:
+              - "-C"
+              - "linker=/home/coder/project/MyCodes/Github/gnu-cross-toolchains/gnu-latest/gnu-osxcross/bin/aarch64-apple-darwin20.2-cc"
