@@ -223,3 +223,13 @@ linux_os_info:
             flags:
               - "-C"
               - "linker=/home/coder/project/MyCodes/Github/musl-cross-toolchains/musl-latest/armv7-unknown-linux-musleabihf/bin/armv7-unknown-linux-musleabihf-gcc"
+
+  - name: "darwin"
+    arch:
+      - name: "x86_64"
+        compilation_type:
+          - name: "gnu"
+            target: "x86_64-apple-darwin"
+            flags:
+              - "-C"
+              - "linker=/home/coder/project/MyCodes/Github/gnu-cross-toolchains/gnu-latest/gnu-osxcross/bin/x86_64-apple-darwin20.2-cc"
